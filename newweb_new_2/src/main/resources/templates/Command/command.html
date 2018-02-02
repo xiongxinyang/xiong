@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/button.css" />
+    <script type="text/javascript">
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                }
+            }
+            return theRequest;
+        }
+        var Request = new Object();
+        Request = GetRequest();
+        var vehicleNO =Request['vehicleno'];
+        vehicleNO=decodeURIComponent(vehicleNO);
+        var vehicleId = getQueryString("vehicleId");
+
+        $("li[type=liInfo]").attr("id","vehicleli"+vehicleId);
+        $("li[type=liInfo]").attr("vid",vehicleId);
+
+        $("span[type=spanInfo]").attr("id","vehicleSpan"+vehicleId);
+        $("span[type=spanInfo]")[0].innerText=vehicleNO;
+
+        $("img[type=imgInfo]").attr("id","vehicleStateImg"+vehicleId);
+    </script>
+
+</head>
+
+<div style=" padding-top:10px;height: 80px;position: relative;" >
+    <!-- 指令发送共用 -->
+    <ul class="dl_ul clearfix">
+        <li>
+            <img src="../../img/command/ico1.png" />
+            <span id="sendVehicleCountSpan">1</span>
+            <div class="name">
+                <p class="name_font">待发送</p>
+                <p id="sendVehicleTime"></p>
+            </div>
+        </li>
+        <li><img id="sendImg_go" src="../../img/command/ico6.png" class="dl_go" /></li>
+        <li><img id="sendImg_wait" src="../../img/command/ico3.png" />
+            <span id="sendImg_waitSpan"></span>
+            <div class="name">
+                <p class="name_font">发送</p>
+                <p id="sendImg_waitTime"></p>
+            </div>
+        </li>
+        <li><img id="waitResult_go" src="../../img/command/ico6.png" class="dl_go" /></li>
+        <li><img id="waitResult_wait" src="../../img/command/ico3.png" />
+            <span id="waitResult_waitSpan"></span>
+            <div class="name">
+                <p class="name_font">等待回复</p>
+                <p id="waitResultTime"></p>
+            </div>
+        </li>
+        <li><img id="finish_go" src="../../img/command/ico6.png" class="dl_go" /></li>
+        <li><img id="finish_wait"  src="../../img/command/ico3.png" />
+            <span id="finish_waitSpan"></span>
+            <div class="name">
+                <p class="name_font">完成</p>
+                <p id="finish_waitTime"></p>
+            </div>
+        </li>
+    </ul>
+
+    <!--发送按钮   点击事件记得去掉 -->
+    <div class="send_form_yc" style="">
+        <a href="javascript:void(0)" class="yc_form_a"  id="sendCommand" onclick="sendCommand()" title="发送">发送</a>
+        <a href="javascript:void(0)"  class="yc_form_b" title="取消"  id="cancleSend"  onclick="cancleSend()">取消</a>
+    </div>
+    <!--发送按钮 end -->
+
+</div>
+
+<div  class="mk" style="margin-top: 0px; width: 100%;">
+    <div class="title" title="点击收起/展开" onclick="hideDiv('#optSpan1','#vehicleDiv')">
+        <span class="leftspan">车辆列表</span> <span id="optSpan1" class="rightspan" ></span>
+    </div>
+    <div style="width:100%;" id="vehicleDiv">
+        <ul id="vehicleUl" class="vehicleUl">
+
+                <li id="1" vid="" type="liInfo"><span type="spanInfo" id="2"></span><img type="imgInfo" id="3" src="" style="display:none"/></li>
+
+        </ul>
+    </div>
+</div>
+<div style="clear:both"></div>
+</html>

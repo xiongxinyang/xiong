@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../css/common.css?v=4"  rel="stylesheet" />
+    <link href="../../css/monitor.css?v=1.0.0"  rel="stylesheet" />
+    <link href="../../css/jquery-ui-1.9.1.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css"   href="../../css/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css"   href="../../css/ui.jqgrid.css" />
+
+    <link href="../../css/flexigrid.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script  type="text/javascript" src="../../js/map/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript"  src="../../js/map/flexigrid.js"></script>
+    <script type="text/ecmascript" src="../../js/map/jquery.jqGrid.min.js"></script>
+    <script type="text/ecmascript" src="../../js/map/grid.locale-cn.js"></script>
+    <script type="text/ecmascript" src="../../js/map/jquery.ztree.all-3.5.js"></script>
+    <script src="../../js/map/reconnecting-websocket.min.js"></script>
+    <!-- <script type="text/javascript" src="../js/sockjs_1.1.0.js"></script>-->
+
+    <script type="text/javascript" src="../../js/map/HashMap.js"></script>
+    <script>
+        $(function() {
+            initTreeAllList();
+        });
+        function initTreeAllList(){
+
+            $.ajax({
+                type : 'post',
+                async : true,
+                url : "../CreateCommandTree",
+                cache : false,
+                dataType : "JSON",
+                success : function (data) {
+                    debugger;
+
+                    var setting = {
+                      /*  check: {
+                            enable: true,
+                            chkboxType:  { "Y" : "ps", "N" : "ps" }
+                        },*/
+                        data: {
+                            key:{
+                                name:"NAME"
+                            },
+                            simpleData: {
+                                enable: true,
+                                idKey: "ID",
+                                pIdKey: "PID",
+                                rootPId: 0
+                            }
+                        },callback: {
+                            onClick: onTreeClick
+                        }
+                    };
+                    //if(AllVehicleDataCache == null)
+
+                    $("#commandcarTreeList").html("");
+                    $.fn.zTree.init($("#commandcarTreeList"), setting, []);//加载树
+                    $.fn.zTree.init($("#commandcarTreeList"), setting, data);//加载树
+                    var carTree = null;
+                    carTree = $.fn.zTree.getZTreeObj("commandcarTreeList");//全局使用
+
+                    $("#loadingDiv").hide();
+
+                }
+            });
+
+        }
+
+
+        function onTreeClick(event, treeId, treeNode, clickFlag) {
+            debugger;
+            if(treeNode.TYPE==2){
+
+                var vehicleID = treeNode.ID;
+                parent.ChangeFrameSrc(vehicleID);
+            }
+        }
+
+
+
+    </script>
+    <style type="text/css">
+        div.pGroup pReload pButton{display:none;}
+        div.pGroup .pcontrol  {display:none;}
+        .flexigrid div.bDiv { border: 1px solid #d0d0d0; border-top: 0px; background: #fff; position: relative; font-size: 12px;overflow-y: auto; overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div id="commandtreeList" style="overflow:hidden; position: relative; height: 100%;width:219px;">
+
+    <div id="commandvehicleTreeList" style=" height: 100%;">
+        <ul id="commandcarTreeList" class="ztree" style="position:absolute;width:210px;overflow:auto; min-height:300px;border-top: 1px solid #ccc;"></ul>
+    </div>
+
+
+</div>
+<div id="loadingDiv" style="">
+    <img alt="" src="../img/big_loading.gif">
+</div>
+<!-- 用于控制弹出窗口- -->
+<a id="txtOpenWindow" target="_blank" style="display: none"></a>
+</body>
+</html>

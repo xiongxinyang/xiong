@@ -1,0 +1,48 @@
+*{ margin:0px; padding:0px;}
+ul,li{ list-style:none;}
+body,html{ width:100%; height:100%;}
+body{font-size:14px; font-family: Verdana, Geneva, sans-serif; color:#010101;line-height:150%;}
+input,select{ font-family:Verdana, Geneva, sans-serif; font-size:14px; outline:none;vertical-align:middle;}
+.clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:"";}
+.clearfix{*zoom:1;} /*����ie6 ��ie7*/
+.dl_main{ height:100%; position:relative;}
+.dl_ul{left:0px; right:0px; padding-left:204px;}
+.dl_ul li{ float:left; height:43px; padding-right:8px; position:relative; font-size:12px;}
+.dl_ul li img{ vertical-align:middle;}
+.dl_ul li span{position: absolute;display:block;width:16px;height:20px;left:50%;top:50%;margin-left:-9px;margin-top:-10px;color: white; font-size: 14px;}
+.dl_go{ margin-top:12px;}
+.dl_title{ font-size:12px;padding-left:50px;}
+.dl_order{ left:0px; right:0px;overflow:auto;}
+.name_font{ font-size:14px; margin-bottom:10px; font-weight:bold; color:#191919;}
+.name{position:absolute; text-align:center; left:-20px; top:52px; width:100px; color:#828282; font-size:12px;}
+.dl_order table input.w{ width:148px; padding:4px 6px; border:1px solid #ccc;}
+.dl_count .list{ width:50%; float:left; font-size:12px; margin-top:10px;}
+.dl_count .list span{ width:115px; text-align:right; display:inline-block; padding-right:5px;}
+.dl_count .list input.w{ width:148px; padding:4px 6px; border:1px solid #ccc;border-radius:3px;}
+.dl_count .list select{ width:160px; padding:4px 6px;border:1px solid #ccc; border-radius:3px;}
+.dl_count .list font{ display:inline-block; margin-left:3px;}
+.dl_count  td label{ margin-right:8px; vertical-align:middle;}
+.dl_count  td.radio input{ margin-right:30px;}
+
+.mk{width:100%; border: 1px solid #d2d0d0;float:left;  margin-top: 5px;box-sizing:border-box;}
+.mk .title{height: 35px;background-color: #f0f5ff;line-height: 40px; cursor: pointer;}
+.mk .title .leftspan{margin-left: 20px;  font-weight: bold;}
+.mk .title .rightspan{background-image: url(../img/hide.png);float: right;margin-right: 20px;margin-top: 2px;display: block;width: 30px;height: 30px;}
+.vehicleUl {padding-left: 20px;margin: 0;}
+.vehicleUl li {	list-style:none;float:left;margin-right: 10px;margin-top: 10px;margin-bottom: 10px;height:25px;line-height:25px;}
+.vehicleResultUl li {height:30px;}
+
+.send_form_yc{position:absolute; right:10px;top:20px;z-index: 10;}
+.send_form_yc a{display: inline-block; width:44px; height: 20px; padding: 4px 12px; text-decoration:none; text-align:center;font-family:Arial,Microsoft YaHei }
+
+
+.list{vertical-align:top;border-bottom: 1px solid #ededed;padding:15px 0px; }
+.list table{ width: 100%;}
+.list table tr td{font-size: 12px;}
+.list table tr td span{ padding: 0 10px;display: inline-block;}
+.list table tr td input{font-size: 14px;}
+.list table tr td select{font-size: 12px;}
+.list table tr td font{display: inline-block;margin-top: 5px; font-size: 12px;line-height: 20px;}
+.list table tr td {padding:3px 0px;}
+
+#pDiv{margin-left:20px}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>终端参数设置</title>
+    <script src="../../js/map/jquery-1.8.2.min.js"></script>
+    <!-- easyui  -->
+    <link rel="stylesheet" type="text/css" href="../../css/easyui.css" />
+    <script type="text/javascript" src="../../js/map/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/map/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/command.css" />
+    <script type="text/javascript" src="../../js/map/reconnecting-websocket.min.js"></script>
+    <script src="../../js/map/HashMap.js"></script>
+    <script src="../../js/map/stringUtil.js"></script>
+    <script src="../../js/command/command.js?v=1.0.0"></script>
+    <script src="../../js/map/template.js"></script>
+    <script type="text/javascript">
+        template.config({sTag: '<#', eTag: '#>'});
+        var basePath= "http://127.0.0.1:8080";
+        var webSocketUrl = "ws://127.0.0.1:8080";
+        var webSocketUrlSockJS = "http://127.0.0.1:8080/";
+        //var USERID =  ${currentUser.getId()};
+        $(function(){
+            $("#paramsInfoss").hide();
+
+        });
+        /** 参数校验 */
+        function checkParam(){
+           /* var message = $("#param2").val();
+            if(message.trim()==''){
+                alert("请输入文本内容！");
+                $("#param2").focus();
+                return false;
+            }*/
+            return true;
+        }
+
+        /** 返回指令参数 */
+        function getParams(){
+            var param = new Object();
+            param.commandCode = $("#param1").val();
+            param.commandParameter = $("#param2").val();
+            return param;
+        }
+
+        /** 获取结果 */
+        function getResultHtml(data){
+            //data = {VehicleID:"123",VehicleNo:"陕A1234",Body:{Status:0}};
+            //var resultHtml = template(document.getElementById('tpl_3').innerHTML,data);
+            //console.log("resultHtml："+resultHtml);
+            //$("#vehicleResultUl").append(data);
+            //return resultHtml;
+            return "成功";
+        }
+
+        function GetChangeInfo() {
+            var types=$("#param1").val();
+            if(types==1)
+            {
+                $("#paramsInfoss").hide();
+                $("#paramsInfo").show();
+                $("#td_span").show();
+                $("#td_input").show();
+            }
+            else if(types==2)
+            {
+                $("#paramsInfo").hide();
+                $("#paramsInfoss").show();
+                $("#td_span").show();
+                $("#td_input").show();
+            }
+            else
+            {
+                $("#td_span").hide();
+                $("#td_input").hide();
+                $("#paramsInfo").hide();
+                $("#paramsInfoss").hide();
+                $("#param2").val("");
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- 指令响应结果模板 -->
+<script id="tpl_3" type="text/html">
+    <!--<li id="vehicleResultli<#=VehicleID#>">车牌号：<#=VehicleNo#>，结果：<#=Body.Status#></li>-->
+</script>
+<input type="hidden" id="commandId" name="commandId" value="10"/>
+<div id="commandpage"></div>
+<!-- <embed type="text/html" src="command.html"></embed>-->
+<div  class="mk" style="width: 100%;" >
+    <div class="title" title="点击收起/展开" onclick="hideDiv('#optSpan2','#pDiv')">
+        <span class="leftspan">指令参数</span> <span id="optSpan2" class="rightspan" ></span>
+    </div>
+    <div id="pDiv">
+        <table cellpadding="0" cellspacing="0" width="100%" >
+            <tr>
+                <td class="list"  width="100%">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="80" align="center" valign="top"><span>命令字</span></td>
+                            <td>
+                                <select id="param1" onchange="GetChangeInfo()">
+                                    <option value="1" selected="selected">无线升级</option>
+                                    <option value="2">控制终端连接指定服务器</option>
+                                    <option value="3">终端关机</option>
+                                    <option value="4">终端复位</option>
+                                    <option value="5">终端恢复出厂设置</option>
+                                    <option value="6">关闭数据通信</option>
+                                    <option value="7">关闭所有无线通信</option>
+                                </select>
+                            </td>
+                            <td id="td_span" width="100" align="center" valign="top"><span>命令参数</span></td>
+                            <td id="td_input">
+                                <input style="width: 800px;" type="text" id="param2" paramType="1" paramrang="0-255" paramlength=""/>
+
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td width="80" align="center" valign="top"></td>
+                            <td>
+
+                            </td>
+                            <td width="100" align="center" valign="top"></td>
+                            <td>
+                                <label id="paramsInfo">参数示例：URL地址;拨号点名称;拨号用户名;拨号密码;IP地址;TCP端口;UDP端口;制造商ID;硬件版本;固件版本;连接到指定服务器时限  （若某个参数无值，则放空）</label>
+                                <label id="paramsInfoss">参数示例：连接控制;监管平台鉴权码;拨号点名称;拨号用户名;拨号密码;IP地址;TCP端口;UDP端口;连接到指定服务器时限  （若某个参数无值，则放空）</label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div style="clear:both"></div>
+<div  class="mk" style="width: 100%;" >
+    <div class="title" title="点击收起/展开" onclick="hideDiv('#optSpan3','#vehicleResultDiv')">
+        <span class="leftspan">回复结果</span> <span id="optSpan3" class="rightspan" ></span>
+    </div>
+    <div style="width:100%;margin-left: 20px;" id="vehicleResultDiv">
+        <ul id="vehicleResultUl">
+        </ul>
+    </div>
+</div>
+</body>
+</html>

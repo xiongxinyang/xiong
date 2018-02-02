@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>实时定位</title>
+    <link href="../img/favicon.ico" type="image/x-icon" rel="icon" />
+    <link id="linkurl" href="../css/blueStyle.css"  rel="stylesheet" />
+    <link href="../css/common.css?v=4"  rel="stylesheet" />
+    <link href="../css/monitor.css?v=1.0.0"  rel="stylesheet" />
+
+    <link href="../css/jquery-ui-1.9.1.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css"   href="../css/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css"   href="../css/ui.jqgrid.css" />
+    <link href="../css/easyui.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/dhtmlxgrid.css"/>
+    <link href="../css/zTreeStyle.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="../js/map/json2.js"></script>
+    <!-- jQuery 一定要放在最前面-->
+    <script src="../js/map/jquery-1.8.2.min.js"></script>
+
+    <!-- 百度地图 -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ceCK1osSlIYCSdhnVhO7eq3H"></script>
+    <script src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+    <script src="../js/map/DrawingManager.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js"></script>
+    <script src="../js/map/TextIconOverlay_min.js"></script>
+    <script src="../js/map/MarkClusterer.js"></script>
+
+    <!-- 优化加载速度  劳  end -->
+    <script type="text/ecmascript" src="../js/map/jquery.jqGrid.min.js"></script>
+    <script type="text/ecmascript" src="../js/map/grid.locale-cn.js"></script>
+    <script type="text/script" src="../js/map/jquery.ztree.all-3.5.js"></script>
+
+    <script type="text/javascript" src="../js/map/baiduGis.js"></script>
+    <script type="text/javascript"	src="../js/map/mapUtil.js?v=3"></script>
+
+    <!-- 导航栏 begin-->
+    <script src="../js/map/isImportNav.js?v=1.01"></script>
+    <!-- 导航栏 end-->
+
+    <script type="text/ecmascript" src="../js/map/jquery.easyui.min.js"></script>
+
+    <!-- dhtmlxGrid -->
+    <link href="../css/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" />
+    <script type="text/javascript" src="../js/trackback/dhtmlxcommon.js"></script>
+    <script type="text/javascript" src="../js/map/dhtmlxgrid.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlx.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_start.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_srnd.js"></script>
+
+    <script src="../js/map/reconnecting-websocket.min.js"></script>
+
+    <script src="../js/map/tool.js"></script>
+    <script src="../js/map/HashMap.js"></script>
+    <script src="../js/map/mapTool.js?v=1"></script>
+    <script src="../js/track/index.js"></script>
+    <!-- ztree -->
+    <script src="../js/map/jquery.ztree.all-3.5.js"></script>
+
+    <script type="text/javascript">
+
+        var basePath ="http://127.0.0.1:11802";
+        var webSocketUrl = "ws://127.0.0.1:11802";
+        var webSocketUrlSockJS = "http://127.0.0.1:11802/";
+        var mapType =   0; // 地图类型 0百度 1泰瑞
+        var mapZoom =   16; // 地图等级
+        var defaultCity = '108.8971080474,34.2190745765'; //默认城市经纬度（lat,lon）
+        //var VehicleIdsFromIndex = '${vehicleIds}';
+        var dataType = 0;//0是车辆监控  1是单车跟踪
+    </script>
+
+    <style type="text/css">
+        /* 自定义信息面板的滚动条样式 */
+        /* ::-webkit-scrollbar{height:6px;width:6px;margin-right:5px;background: #666;transition:all 0.3s ease-in-out;border-radius:0px}//定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+        ::-webkit-scrollbar-track { -webkit-border-radius: 6px;border-radius: 6px;}
+        ::-webkit-scrollbar-thumb{-webkit-border-radius: 6px;border-radius: 6px;background: #FB6362; }//定义滑块 内阴影+圆角
+        ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.6)}
+        ::-webkit-scrollbar-thumb:active{background:rgba(0,0,0,0.8)}
+        ::-webkit-scrollbar-thumb:window-inactive {background: rgba(0,0,0,0.4);} */
+        /*左侧导航*/
+        .left_menu{cursor:pointer;position:absolute;z-index:1000;left:36%;top:48px;border-radius:5px;height:26px;line-height:26px;color:#fff;font-size:14px;text-align:center;}
+        .lmenu{width:130px;float:left;border-right:1px solid #CACACA;}
+        .left_menu ul li{cursor:pointer;float:left;width:130px;height: 26px;line-height: 26px;box-sizing:border-box;border-left: 1px solid #CACACA;border-bottom: 1px solid #fff;}
+        .left_menu ul{width:390px;margin:0 auto;display:none;}
+        .left_menu .ChargeCar{width:260px;}
+        /*服务站点查询面板*/
+        #queryPanel{z-index:999;top:80px; height:auto;  width:245px; position:absolute; right:30px;  background:#fff; -webkit-box-shadow:1px 2px 1px #ccc; -moz-box-shadow:1px 2px 1px #ccc; box-shadow:1px 2px 1px #ccc; }
+        .inputBox{height:36px;}
+        .inputBox .search-t, .inputBox .search-b{height:100%; border:0 none; padding:0; margin:0;}
+        .inputBox .search-t{width:195px; text-indent:.6em;}
+        .inputBox .search-b{width:50px; background:#5180d2; color:#fff;}
+        .result_panel{width:235px;z-index:99;top:130px; height:auto;width:245px; position:absolute; right:30px; background:#fff;border: 1px solid #999;box-sizing:border-box; -webkit-box-shadow:1px 2px 1px #ccc; -moz-box-shadow:1px 2px 1px #ccc; box-shadow:1px 2px 1px #ccc;display: none;padding:20px 5px 30px;}
+        .res-title{width:120px;text-align: center;height: 22px;line-height: 22px;font-size: 10px;background: blue;color: #fff;position: absolute;top:5px;left:-8px;}
+        .result_panel ul{border-bottom: 1px solid #CECDCD;text-align: center;padding:10px;font-size: 14px;overflow: hidden;}
+        .result_panel ul:last-of-type{border-bottom:0;}
+        .result_panel ul li{line-height: 24px;}
+        .result_panel .left{display: inline-block;width:35%;text-align: right;}
+        .result_panel .right{display: inline-block;width:65%;text-align: left;}
+        .result_panel .h_left{width:60%;}
+        .result_panel .h_right{width:40%;}
+
+        .searchUL{padding:0 5px;}
+        .searchUL:hover{background: #CECDCD;}
+        .searchUL li{display:block; border-top:1px solid #ccc; cursor:pointer; position:relative; padding-right:4.5em;}
+        .searchUL li .set-a{color:#999; position:absolute; right:.3em; top:50%; margin-top:-.5em; line-height:1em;}
+        .searchUL li .sddText{/*overflow:hidden; white-space:nowrap; word-wrap:normal; -ms-text-overflow:ellipsis; text-overflow:ellipsis;*/ width:170px; display:block; padding:8px 5px;}
+
+        /*服务站点树节点*/
+        .ztree li span.button.stationHome_ico_docu{margin-right:2px; background: url(../img/home.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+        .ztree li span.button.stationServer_ico_docu{margin-right:2px; background: url(../img/home.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+        /* .ztree li{height: 30px;line-height: 30px;padding-left:30px;background: linear-gradient(to bottom,#fff,#CECDCD);}  */
+        .ztree{padding-left:26px;}
+
+        #mapDiv lable{displsy:inline-block;}
+
+        /*运行车辆信息面板样式*/
+        .yyBox{display:none;position: absolute;top:80px;right:20px;border:1px solid #999;background:#fff; -webkit-box-shadow:1px 2px 1px #ccc; -moz-box-shadow:1px 2px 1px #ccc; box-shadow:1px 2px 1px #ccc;font-size: 14px;text-align: center;}
+        .closeBox{width:322px;height:40px;line-height:40px;color:#fff;text-align:center;font-size:18px;overflow:initial}
+        .yyPanel{width:310px;position: relative;padding-top:10px;}
+        .middle_font{font-size: 20px;}
+        .small_font{font-size: 10px;}
+        .green_font{color:#3285FF;}
+        .tit-left{text-align: center;height: 22px;width:146px;line-height: 22px;font-size: 10px;color: #fff;position: absolute;top:5px;left:-8px;}
+        .sydl-box{padding:0 5px;}
+        .sydl-li{width: 101px;height: 101px;margin-top: 30px;position: relative;border-radius: 50%;}
+        .sydl-li span{width: 60px;height: 30px;line-height: 30px;position: absolute;top:50%;left:50%;font-size: 24px;margin-top: -15px;margin-left:-30px;}
+        .sydl-left{float: left;background:url(../img/nowSpeed.png) no-repeat; }
+        .sydl-right{float: right;padding-top:22px;}
+        .sydl-middle{position: absolute;top:30px;left:0;right: 0;margin: 0 auto;}
+        .sydl-middle .cNum{width:80px;height: 28px;line-height: 28px;margin: auto;color:#fff;margin-top: 85px;}
+        .v-line{height: 1px;background: #CECDCD;width:275px;margin:0 auto;margin-top:158px;}
+        .ji-box {margin:0;border-bottom: 1px solid #CECDCD;overflow: hidden;padding:0 10px;}
+        .ji-box li{width:20%;height:20%;float: left;}
+        .ji-box  p{margin: 5px;}
+        .icons{display: inline-block;margin-left: 7px;}
+        .icons img{margin-right:5px;}
+        .icons_box{padding:5px 10px;text-align: left;border-bottom: 1px solid #CECDCD;overflow: hidden;}
+        .icons-right{float: right;height: 18px;width:80px;line-height: 18px;font-size: 10px;background: #3285FF;color: #fff;margin-right: -10px;margin-top:8px;}
+        .info_box li{padding:0 10px;width: 40%;float: left;text-align: left;margin: 3px 0;}
+</style>
+</head>
+<body class="index" style="overflow:hidden;">
+<div id="mapMain" class="fix" style="">
+    <div id="left">
+        <div class="toolPanel">
+            <ul>
+                <li id="leftToolLi" title="点击收起">
+                    <span id="leftToolSpan">收起</span>
+                </li>
+                <li id="minSearchLi">
+                    <div id="leftSmartSearchLi" class="comSearch left">
+                        <input class="vehicleInp" id="txtVehicleSearch" type="text" value="车牌查找" style="color: rgb(192, 192, 192);outline:none; border:0; background:none;">
+                        <input id="btnVehicle" class="btnVehicle" style="outline:none; border:0;"   type="button" value="">
+                    </div>
+                </li>
+                <li id="rightPanelLi">
+                    <span id="rightPanelSpan" title="点击打开查询面板">高级查询</span>
+                </li>
+            </ul>
+        </div>
+        <div id="treeList" style="overflow:hidden; position: relative;height: 625px ">
+
+            <iframe  src="vehicleTree.html" id="leftTreeIframe" name="leftTreeIframe"  width="100%" style="border: 0px;" marginwidth="0" height="100%" frameborder="0" scrolling="no" ></iframe>
+        </div>
+        <div id="stationTree" class="ztree" style="display:none;overflow: auto;height: 99%;">
+
+        </div>
+
+    </div>
+
+    <div id="right" class="" style=" width: 1120px;float:left">
+
+        <div id="map" style="width:100%;height:100%">
+            <div id="mapDiv" style="width:100%;height:500px">
+
+            </div>
+            <div id="mapTools" style="height: 36px;">
+                <!--全屏的箭头 -->
+                <div class="top_go" style="float: left;" id="importNav3"></div>
+
+                <div class="right fix">
+                    <div id="smartSearchLi" class="comSearch left" style="">
+                        <input class="inp" id="smartSearchTxt" type="text" value="输入 区域/点 " style="color: rgb(192, 192, 192);outline:none; border:0; background:none;">
+                        <input id="smartSearchBtn" class="bot" onmousemove="this.className='botOver'" onmouseout="this.className='bot'" type="button" value="" style="outline:none; border:0;">
+                    </div>
+                    <ul class="right" style="width: auto;">
+
+                        <li id="mapToolsLi"><a href="javascript:void(0)"><i class="mapTools"></i><span>工具</span><span class="arrow"><em>◆</em></span></a></li>
+                        <li id="matterMapLi"><a href="javascript:void(0)"><i class="matterMap"></i><span>物流地图</span><span class="arrow"><em>◆</em></span></a></li>
+                        <li id="lukuangLi" onclick="smartTraffic();" ><a href="javascript:void(0)"><i id="lukuangI" class="lukuang"></i><span id="lukuangLabel">路况</span></a></li>
+                        <li id="mapAllLi"><a href="javascript:void(0)"><i id="mapAllI" class="mapAll"></i><span id="mapAllLabel">全屏</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="mapSwitch" style="display:none">
+                <a id="mapSwitchA" class="satellite" href="javascript:void(0)" title="切换卫星地图">卫星地图</a>
+            </div>
+
+
+
+
+    </div>
+    <!--监控列表-->
+    <!-- <div id="wrapMonitorList"> -->
+    <div id="nResizeMoveDiv" class="butDragMove" style="height: 251px; top: 8px; width: 1144px;  display:none"></div>
+    <div id="nResizeDiv" class="butDrag" title="拖拽"> <p> 拖拽</p></div>
+    <div id="tabTopDiv" class="tableTop fix">
+
+        <div id="carTips">
+            <ul class="fix" id="cmdStatus">
+                <li>
+                    <a href="javascript:void(0)" class="chli" title="全部停止" id="setStopAllSubscribe"><i class="stop">全部停止</i></a></li>
+
+                <li id="batchLi">
+                    	<span class="cmd_span" id="batchMenuPanel_a">
+                    		<a id="closeBatchPanel" href="javascript:void(0)" class="close" title="关闭" onclick="closeSearchPanel('#batchMenuPanel')">关闭</a>
+                    		<span class="arrow"></span>
+                    		<a href="javascript:void(0)" class="back_icon">
+                    			<span class="monitor_ico trackplayback"></span>
+                    			<p>轨迹回放</p>
+                    		</a>
+                    	<!--	<a href="javascript:void(0)" class="back_icon">
+                    			<span class="picture" ></span>
+                    			<p>一键拍照</p>
+                    		</a>
+                    		<a href="javascript:void(0)"  class="back_icon" >
+                    			<span class="lcdmessage" ></span>
+                    			<p>下发文本</p>
+                    		</a>
+                    		<a href="javascript:void(0)"  class="back_icon">
+                    			<span class="keymonitor" ></span>
+                    			<p>重点监控</p>
+                    		</a>-->
+                    		<a href="javascript:void(0)" class="back_icon">
+                    			<span class="sendcommand" ></span>
+                    			<p>发送指令</p>
+                    		</a>
+                    	</span>
+
+                    <a href="javascript:void(0)" class="chli"><i class="cTool"></i></a></li>
+
+            </ul>
+        </div>
+        <div class="tableOperate" id="tableOperateDiv">
+            <!-- 导出功能暂时挂起，待完善  2015-09-10-->
+            <a href="javascript:void(0)" title="导出Excel" id="exportBtn" ><i class="tExcel">导出Excel</i></a>
+            <a href="javascript:void(0)" title="窗口化" id="setToolWindow"><i class="minify">窗口化</i></a>
+            <a href="javascript:void(0)" title="最小化" id="setToolMin" style="display:none;"><i class="min">最小化</i></a>
+            <a href="javascript:void(0)" title="最大化" id="setToolMax"><i class="max">最大化</i></a>
+        </div>
+    </div>
+    <div id="monitorList" style="height: 100%; width: 100%;">
+        <!-- <table id="vehicleTable"></table> -->
+        <div id="gridbox" style="height:162px;width:100%;background-color:white;"></div>
+    </div>
+    <!-- </div> -->
+
+    <span class="cmd_span" id="batchVehicleCommand">
+ 		<a id="closeBatchPanel" href="javascript:void(0)" class="close" title="关闭" onclick="closeSearchPanel('#batchVehicleCommand')">关闭</a>
+ 		<span class="arrow"></span>
+ 	<!--	<a href="javascript:void(0)" class="back_icon"><span class="picture" ></span><p>一键拍照</p>	</a>
+ 		<a href="javascript:void(0)"  class="back_icon" ><span class="lcdmessage" ></span><p>下发文本</p></a>-->
+ 		<a href="javascript:void(0)" class="back_icon"><span class="sendcommand" ></span><p>发送指令</p></a>
+ 	</span>
+
+    <div id="OperateMenuPanel" >
+        <a id="closeOperateMenuPanel" href="javascript:void(0)" class="close" onclick="closeSearchPanel('#OperateMenuPanel',null)" title="关闭">关闭</a>
+        <div style="text-align: center;">
+            <span class="arrow" id="operateMenuPanelArrow"></span>
+            <ul>
+                <li id="trackplaybackli"><span class="trackplayback" ></span><a id="trackplayback" href="javascript:void(0)"  title="轨迹回放">轨迹回放</a> </li>
+  <!--              <li id="pictureli"><span class="picture" ></span><a id="picture" href="javascript:void(0)" title="拍   照">抓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;拍</a> </li>
+                <li id="lcdmessageli"><span class="lcdmessage" ></span><a id="lcdmessage" href="javascript:void(0)" title="下发文本">下发文本</a> </li>
+                <li id="videotapeli"><span class="videoplay" ></span><a id="videoplay" href="javascript:void(0)" title="随 录">随&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</a> </li>
+                <li id="keymonitorli"><span class="keymonitor" ></span><a id="keymonitor" href="javascript:void(0)" title="重点监控">重点监控</a> </li>-->
+                <li id="sendcommandli"><span class="sendcommand" ></span><a id="sendcommand" href="javascript:void(0)" title="发送指令">发送指令</a> </li>
+
+            </ul>
+        </div>
+    </div>
+        <a id="txtOpenWindow" target="_blank" style="display: none"></a>
+</div>
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>重点监控</title>
+    <link href="../img/favicon.ico" type="image/x-icon" rel="icon" />
+    <link id="linkurl" href="../css/blueStyle.css"  rel="stylesheet" />
+    <link href="../css/common.css?v=4"  rel="stylesheet" />
+    <link href="../css/monitor.css?v=1.0.0"  rel="stylesheet" />
+
+    <link href="../css/jquery-ui-1.9.1.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css"   href="../css/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css"   href="../css/ui.jqgrid.css" />
+    <link href="../css/easyui.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/dhtmlxgrid.css"/>
+    <link href="../css/zTreeStyle.css" rel="stylesheet"/>
+
+    <script type="text/javascript">
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                }
+            }
+            return theRequest;
+        }
+        var Request = new Object();
+        Request = GetRequest();
+        var vehicleNO =Request['vehicleno'];
+
+    </script>
+    <script type="text/javascript" src="../js/map/json2.js"></script>
+    <!-- jQuery 一定要放在最前面-->
+    <script src="../js/map/jquery-1.8.2.min.js"></script>
+
+    <!-- 百度地图 -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ceCK1osSlIYCSdhnVhO7eq3H"></script>
+    <script src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+    <script src="../js/map/DrawingManager.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js"></script>
+    <script src="../js/map/TextIconOverlay_min.js"></script>
+    <script src="../js/map/MarkClusterer.js"></script>
+
+    <!-- 优化加载速度  劳  end -->
+    <script type="text/ecmascript" src="../js/map/jquery.jqGrid.min.js"></script>
+    <script type="text/ecmascript" src="../js/map/grid.locale-cn.js"></script>
+    <script type="text/script" src="../js/map/jquery.ztree.all-3.5.js"></script>
+
+    <script type="text/javascript" src="../js/attention/baiduGis.js"></script>
+    <script type="text/javascript"	src="../js/attention/mapUtil.js?v=3"></script>
+
+    <!-- 导航栏 begin-->
+    <script src="../js/map/isImportNav.js?v=1.01"></script>
+    <!-- 导航栏 end-->
+
+    <script type="text/ecmascript" src="../js/map/jquery.easyui.min.js"></script>
+
+    <!-- dhtmlxGrid -->
+    <link href="../css/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" />
+    <script type="text/javascript" src="../js/trackback/dhtmlxcommon.js"></script>
+    <script type="text/javascript" src="../js/map/dhtmlxgrid.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlx.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_start.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_srnd.js"></script>
+
+    <script src="../js/map/reconnecting-websocket.min.js"></script>
+    <script src="../js/attention/flexigrid.js"></script>
+    <script src="../js/map/tool.js"></script>
+    <script src="../js/map/HashMap.js"></script>
+    <script src="../js/map/mapTool.js?v=1"></script>
+    <script src="../js/attention/attention.js"></script>
+    <script src="../js/attention/echarts.js"></script>
+    <!-- ztree -->
+    <script src="../js/map/jquery.ztree.all-3.5.js"></script>
+
+    <script type="text/javascript">
+
+        vehicleNO = decodeURIComponent(vehicleNO);
+        window.document.title=vehicleNO+"重点监控";
+
+        var basePath ="http://127.0.0.1:8080";
+        var webSocketUrl = "ws://127.0.0.1:8080";
+        var webSocketUrlSockJS = "http://127.0.0.1:8080/";
+
+     /*   var basePath ="http://36.41.185.148:11805";
+        var webSocketUrl = "ws://36.41.185.148:11805";
+        var webSocketUrlSockJS = "http://36.41.185.148:11805/";*/
+        var mapType =   0; // 地图类型 0百度 1泰瑞
+        var mapZoom =   16; // 地图等级
+        var defaultCity = '108.8971080474,34.2190745765'; //默认城市经纬度（lat,lon）
+        //var VehicleIdsFromIndex = '${vehicleIds}';
+        var dataType = 1;//0是车辆监控  1是单车跟踪
+$(function () {
+    $('#cmdStatus li').click(function () {
+        $(this).addClass('now').siblings('li').removeClass('now');
+        var i=$(this).index();
+        $('#monitorList>div').hide();
+        $('#monitorList>div').eq(i).show();
+    });
+    $(".barBtn").click(function () {
+        $(this).toggleClass("rBar");
+        if(  $(this).hasClass("rBar")){//显示实时图片
+
+            $.ajax({
+                type: 'post',
+                async: true,
+                url: "/attentionPic",
+                cache: false,
+                dataType: "JSON",
+                success: function (data) {
+                    //构建图片列表
+                    if(data!=null) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#picBox_ul").append("<li onclick='honorShow("+i+")'><img src=" + data[i].picUrl + " alt=''><p>" + data[i].date + "</p></li>");
+                            $("#thumbnail_ul").append(" <li><img src=" + data[i].picUrl + " alt=''></li>")
+                        }
+                        $("#img_ul").attr("src", data[0].picUrl);
+                    }
+                }
+            });
+
+            $("#picBox").show();
+            $("#right,#map,#mapDiv").width($("body").width()-200);
+            $(this).attr("title","点击隐藏实时图片");
+        }else{//隐藏实时图片
+            $("#picBox_ul").html("");
+            $("#thumbnail_ul").html("");
+            $("#img_ul").attr("src", "");
+
+            $("#picBox").hide();
+            $("#right,#map,#mapDiv").width($("body").width());
+            $(this).attr("title","点击显示实时图片");
+        }
+    });
+})
+
+    </script>
+</head>
+<body>
+<!-- 导航栏 end-->
+<div id="mapMain" class="fix" style="">
+    <div id="right" class="" style="float:left;position: relative">
+        <div id="map">
+            <div id="mapDiv" style="width: 1200px; height: 100%"></div>
+            <div id="mapTools" style="height: 36px;">
+                <!--全屏的箭头 -->
+                <!--<div class="top_go" style="float: left;" id="importNav3"></div>-->
+
+                <div class="right fix">
+                    <ul class="right" style="width: auto;">
+                        <li id="mapAllLi"><a href="javascript:void(0)"><i
+                                id="mapAllI" class="mapAll"></i><span id="mapAllLabel">全屏</span></a></li>
+                    </ul>
+                </div>
+                <div class="right fix">
+                    <ul class="right" style="width: auto;">
+                        <li id="luangkuangLi" onclick="smartTraffic();"><a href="javascript:void(0)"><i
+                                id="lukuangLI" class="lukuang"></i><span id="lukuangLabel" >路况</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="barBtn lBar" title="点击显示实时图片"></div>
+        <!--轨迹列表-->
+        <div id="nResizeMoveDiv" class="butDragMove"
+             style="height: 251px; top: 8px; width: 1144px; display: none"></div>
+        <div id="nResizeDiv" class="butDrag" title="拖拽">
+            <p>拖拽</p>
+        </div>
+        <div id="tabTopDiv" class="tableTop fix">
+            <div id="carTips">
+                <ul class="fix" id="cmdStatus">
+                    <li class="now">
+                        <a href="javascript:void(0)"  class="chli" title="分钟学时" id="btn_time"><i class="minute"></i>分钟学时</a></li>
+                    <li>
+                        <a href="javascript:void(0)"  class="chli" title="轨迹数据" id="btn_gps"><i class="track"></i>轨迹数据</a></li>
+                    <li>
+                        <a href="javascript:void(0)"  class="chli" title="培训信息" id="btn_study"><i class="study"></i>培训信息</a></li>
+
+                </ul>
+            </div>
+
+        </div>
+        <div id="monitorList" style="width: 100%;">
+            <!-- <table id="vehicleTable"></table> -->
+            <div id="TimeInfo" style="height:100%!important;background-color:white;overflow-y: auto;width:100%!important;"></div>
+            <div id="gridboxs" style="height:100%!important;display:none;background-color:white;overflow-y: auto;width:100%!important;"></div>
+            <div id="StudyInfo" style="height:100%!important;display:none;background-color:white;overflow-y: auto;width:100%!important;">
+
+                <div style="float: left;width: 150px;height: 100px">
+                    <img id="tea_img" src="">
+                </div>
+               <div style="float: left;width: 400px;">
+                      <table>
+                          <tr>
+                              <td colspan="2"><b>教练信息</b></td>
+                          </tr>
+                          <tr>
+                              <td class="tdLab">姓名：</td>
+                              <td id="id_teaName" style="width: 100px;height: 18px;"></td>
+                          </tr>
+                        <tr>
+                            <td class="tdLab">性别：</td>
+                            <td id="id_teaSex" style="width: 100px;height: 18px"></td>
+                        </tr>
+                          <tr>
+                              <td class="tdLab">身份证号：</td>
+                              <td id="id_teaCard" style="width: 100px;height: 18px"></td>
+
+                          </tr>
+                        <tr>
+                            <td class="tdLab">教练编号：</td>
+                            <td id="id_teaNo" style="width: 100px;height: 18px"></td>
+                        </tr>
+                          <tr>
+                              <td class="tdLab">联系电话：</td>
+                              <td id="id_teaTel" style="width: 100px;height: 18px"></td>
+                          </tr>
+                      </table>
+               </div>
+                <div style="float: left;width: 150px;height: 100px">
+                    <img id="stu_img" src="">
+                </div>
+                <div style="float: left;width: 400px;">
+                    <table>
+                        <tr>
+                            <td colspan="2"><b>学员信息</b></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLab">姓名：</td>
+                            <td id="id_stuName" style="width: 100px;height: 18px"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLab">性别：</td>
+                            <td id="id_stuSex" style="width: 100px;height:18px"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLab">身份证号：</td>
+                            <td id="id_stuCard" style="width: 100px;height: 18px"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLab">学员编号：</td>
+                            <td id="id_stuNo" style="width: 100px;height: 18px"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLab">联系电话：</td>
+                            <td id="id_stuTel" style="width: 100px;height: 18px"></td>
+                            <td class="tdLab">科目三所需学时：</td>
+                            <td id="id_stuTotalAmt" style="width: 100px;height: 18px"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+    <div style="margin:10px;float: left;overflow: auto;width: 180px;display: none" id="picBox">
+        <ul class="piclist" id="picBox_ul">
+          <!--  <li onclick="honorShow(0)"><img src="../img/pic/hover1.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(1)"><img src="../img/pic/hover2.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(2)"><img src="../img/pic/hover3.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(3)"><img src="../img/pic/hover4.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(4)"><img src="../img/pic/hover5.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(5)"><img src="../img/pic/hover6.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(6)"><img src="../img/pic/hover3.png" alt=""><p>2017-12-14 22:22:22</p></li>
+            <li onclick="honorShow(7)"><img src="../img/pic/hover1.png" alt=""><p>2017-12-14 22:22:22</p></li>-->
+        </ul>
+    </div>
+</div>
+
+<div class="mask">
+</div>
+<div class="zoombox">
+    <div class="close_btn" onclick="closeMask()"></div>
+    <div class="zoompic"><img id="img_ul" src="" width="560" height="410" alt="" /></div>
+    <div class="sliderbox">
+        <div id="btn-left" class="arrow-btn dasabled"></div>
+        <div class="slider" id="thumbnail">
+            <ul id="thumbnail_ul">
+              <!--  <li><img src="../img/pic/hover1.png" alt=""></li>
+                <li><img src="../img/pic/hover2.png" alt=""></li>
+                <li><img src="../img/pic/hover3.png" alt=""></li>
+                <li><img src="../img/pic/hover4.png" alt=""></li>
+                <li><img src="../img/pic/hover5.png" alt=""></li>
+                <li><img src="../img/pic/hover6.png" alt=""></li>
+                <li><img src="../img/pic/hover3.png" alt=""></li>
+                <li><img src="../img/pic/hover1.png" alt=""></li>
+                <li><img src="../img/pic/hover3.png" alt=""></li>
+                <li><img src="../img/pic/hover1.png" alt=""></li>-->
+            </ul>
+        </div>
+        <div id="btn-right" class="arrow-btn"></div>
+    </div><!--slider end-->
+</div>
+</body>
+</html>

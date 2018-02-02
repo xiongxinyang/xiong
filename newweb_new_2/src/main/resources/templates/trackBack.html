@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<script>
+
+
+
+    Date.prototype.format = function(format){
+        var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(), //day
+            "h+" : this.getHours(), //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+
+        if(/(y+)/.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        }
+
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+            }
+        }
+        return format;
+    }
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轨迹回放</title>
+    <link id="linkurl" href="../css/blueStyle.css"  rel="stylesheet" />
+    <link href="../css/common.css?v=1"  rel="stylesheet" />
+    <link href="../css/track.css?v=2"  rel="stylesheet" />
+    <script>
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                }
+            }
+            return theRequest;
+        }
+        var Request = new Object();
+        Request = GetRequest();
+        var basePath ="127.0.0.1:8080";
+        var webSocketUrl = "ws://127.0.0.1:8080";
+        var webSocketUrlSockJS = "http://127.0.0.1:8080/";
+
+      /*  var basePath ="36.41.185.148:11805";
+        var webSocketUrl = "ws://36.41.185.148:11805";
+        var webSocketUrlSockJS = "http://36.41.185.148:11805/";*/
+
+        var mapType =   0; // 地图类型 0百度 1泰瑞
+        var mapZoom =  16; // 地图等级
+        var tracklineColor = "#330099";
+        var defaultCity =  '108.8971080474,34.2190745765'; //默认城市经纬度（lat,lon）
+        var vehicleNO =Request['vehicleno'];
+        vehicleNO = decodeURIComponent(vehicleNO);
+        window.document.title="轨迹回放";
+        //var userId =  "${currentUser.id}";
+    </script>
+    <link href="../css/gis/common.css"  rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/ui.jqgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../css/easyui.css">
+
+    <!-- 百度地图 -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ceCK1osSlIYCSdhnVhO7eq3H"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js"></script>
+    <script type="text/javascript" src="../js/map/DrawingManager.js"></script>
+    <script src="../js/map/HashMap.js"></script>
+    <script type="text/javascript" src="../js/map/json2.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="../js/map/jquery-1.8.2.min.js"></script>
+    <link href="../css/jquery-ui-1.9.1.css" rel="stylesheet" />
+    <!-- websocket -->
+    <script src="../js/map/reconnecting-websocket.min.js"></script>
+    <!-- 导航栏 begin-->
+    <script src="../js/map/isImportNav.js?v=1.01"></script>
+    <!-- 导航栏 end-->
+   <!-- <link rel="stylesheet" type="text/css" href="<%=basePath%>resources/gis/js/dhtmlxGrid/skins/dhtmlxgrid_dhx_skyblue.css"/>
+    <script type="text/javascript" src="<%=basePath%>resources/gis/js/dhtmlxGrid/dhtmlxcommon.js"></script>-->
+    <link href="../css/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" />
+    <script type="text/javascript" src="../js/trackback/dhtmlxcommon.js"></script>
+    <script type="text/javascript" src="../js/map/dhtmlxgrid.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlx.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_start.js"></script>
+    <script type="text/javascript" src="../js/trackback/dhtmlxgrid_srnd.js"></script>
+  <!--  <script type="text/javascript" src="<%=basePath%>resources/gis/js/dhtmlxGrid/dhtmlx.js"></script>
+    <script type="text/javascript" src="<%=basePath%>resources/gis/js/dhtmlxGrid/ext/dhtmlxgrid_start.js"></script>
+    <script type="text/javascript" src="<%=basePath%>resources/gis/js/dhtmlxGrid/ext/dhtmlxgrid_srnd.js"></script>-->
+    <script type="text/javascript"	src="../js/map/mapTool.js?v=3"></script>
+    <script type="text/javascript"	src="../js/trackback/baiduGis.js"></script>
+
+    <script type="text/javascript"	src="../js/trackback/mapUtil.js?v=3"></script>
+
+    <script src="../js/map/tool.js"></script>
+    <script src="../js/trackback/trackDgridNew.js"></script>
+   <!-- <script type="text/javascript" src="<%=basePath%>resources/gis/js/track/trackDgridNew.js"></script>-->
+
+    <style type="text/css">
+        .infoWindow a:link {color:#FF0000;} /* 没访问过的链接样式 */
+        .infoWindow a:visited {color:#00FF00;} /* 访问过的链接样式 */
+        .infoWindow a:hover {color:#FF00FF;} /* 鼠标进入链接区域的链接样式 */
+        .infoWindow a:active {color:#0000FF;} /* 点击链接时的链接样式 */
+    </style>
+</head>
+<body>
+
+<!-- 导航栏 end-->
+<!-- 	<input type="button" value="测试" onclick="toExcel();"> -->
+
+<div id="mapMain" class="fix" style="">
+    <div id="right" class="" style="height: 626px;">
+        <div id="map" style="width: 100%; height: 100%">
+            <div id="mapDiv" style="width: 100%; height:100%"></div>
+            <div id="mapTools" style="height: 36px;">
+
+
+                <div class="right fix">
+
+                    <div id="smartSearchLi" class="comSearch left" style="">
+                        <input class="inp" id="smartSearchTxt" type="text" value="输入 区域/点"
+                               style="color: rgb(192, 192, 192);outline: none; border: 0px;box-shadow: inset 0 0px 0px white;
+								background: none;padding:0px;width:130px !important;webkit-box-shadow: inset 0 0px 0px white;">
+                        <input id="smartSearchBtn" class="bot" type="button" value="" style="width:18px;">
+                    </div>
+                    <ul class="right" style="width: auto;">
+                        <li style="display: none;" id="drawSearchLi"><a href="javascript:void(0)"><i
+                                class="drawSearch"></i><span>拉框查找</span><span class="arrow"><em>◆</em></span></a></li>
+                        <li id="mapToolsLi"><a href="javascript:void(0)"><i
+                                class="mapTools"></i><span>工具</span><span class="arrow"><em>◆</em></span></a></li>
+                        <li id="matterMapLi"><a href="javascript:void(0)"><i
+                                class="matterMap"></i><span>物流地图</span><span class="arrow"><em>◆</em></span></a></li>
+                        <li id="mapAllLi"><a href="javascript:void(0)"><i
+                                id="mapAllI" class="mapAll"></i><span id="mapAllLabel">全屏</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="mapSwitch" style="display: none">
+                <a id="mapSwitchA" class="satellite" href="javascript:void(0)"
+                   title="切换卫星地图">卫星地图</a>
+            </div>
+            <div id="showQueryPanel" style="display:none;">
+                <a   class="satellite" href="javascript:void(0)"
+                     title="显示查询面板">显示查询面板</a>
+            </div>
+            <div id="openOilSpeedPanel" style="display:none;">
+                <a   class="satellite" href="javascript:void(0)"
+                     title="显示油位图表">显示油位图表</a>
+            </div>
+
+            <div id="mapChoiceDiv" id="0" class="toolsLayer"
+                 style="width: 180px; top: 37px; left: 0px; display: none;">
+                <ul class="downLayer">
+                    <li style="display:none;" mapType="smartEarthGis">
+                        <div id="smartEarthLi" class="left" >
+                            <i id="smartEarthleI" class="mapSelect"></i><span>泰瑞地图</span></div>
+                        <div class="right" style="width: auto;">
+                            <a class="mapDefault" href="javascript:void(0)"   id="defaultSmartEarth"  >设为默认</a>
+                        </div>
+                    </li>
+                    <li class="last" mapType="baiduGis">
+                        <div id="baiduLi" class="left">
+                            <i id="baiduI"></i><span>百度地图</span>
+                        </div>
+                        <div class="right" style="width: auto;">
+                            <a class="mapDefault" href="javascript:void(0)" title=""
+                               id="defaultBaidu" style="">设为默认</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div id="matterMapDiv" class="toolsLayer"
+                 style="width: 200px; top: 37px; right: 76px; display: none; z-index: 999;">
+                <ul class="downLayer">
+                    <li id="matterMarkerLi" style="cursor: default;">
+                        <div class="left">
+                            <i class="dot"></i><span>点</span>
+                        </div>
+                        <div class="right">
+                            <a id="markerAddA" class="add" href="javascript:void(0)"
+                               title="点击添加点">添加</a> <a id="markerShowA" class="hide"
+                                                       href="javascript:void(0)" isShow ="false" title="点击隐藏点">显示</a> <a style="display: none;"
+                                                                                                                         id="markerDisA" href="javascript:void(0)" title="点击切换显示等级">(市)</a>
+                        </div>
+                    </li>
+                    <li id="matterAreaLi" style="cursor: default;">
+                        <div class="left">
+                            <i class="cover"></i><span>区域</span>
+                        </div>
+                        <div class="right">
+                            <a id="areaAddA" class="add" href="javascript:void(0)"
+                               title="点击添加区域">添加</a> <a id="areaShowA" class="hide"
+                                                        href="javascript:void(0)" isShow ="false" title="点击隐藏区域">显示</a><a id="areaDisA" style="display: none;"
+                                                                                                                          href="javascript:void(0)" title="点击切换显示等级">(市)</a>
+                        </div>
+                    </li>
+                    <li id="matterLineLi" style="cursor: default; display: none;">
+                        <div class="left">
+                            <i class="line"></i><span>线</span>
+                        </div>
+                        <div class="right">
+                            <a id="lineShowA" class="hide" href="javascript:void(0)"
+                               title="点击显示线">隐藏</a>
+                        </div>
+                    </li>
+                    <li id="mNavigationLi"><i class="navigation"></i><span>导航</span></li>
+
+                    <li id="mTrafficLi" class="last"><i class="road"></i><span>路况</span></li>
+                </ul>
+            </div>
+
+
+            <div id="mapToolsDiv" class="toolsLayer"
+                 style="width: 142px; top: 37px; right: 132px; display: none; z-index: 99999;">
+                <ul class="downLayer">
+                    <li id="measureLi_1" onclick="bMapScaling(1);"><i class="mapZoomIn"></i><span>放大</span></li>
+                    <li id="measureLi_2" onclick="bMapScaling(-1);"><i class="mapZoomOut"></i><span>缩小</span></li>
+                    <li id="measureLi_3" onclick="printMap();"><i class="mapPrint"></i><span>打印</span></li>
+                    <li id="measureLi_4" class="last" onclick="measure();"><i class="mapMeasure"></i><span>测距</span></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!--查询面板 -->
+        <div id="queryPanel"  class="easyui-draggable" style=" z-index: 999;top:86px;height: 300px;border: 1px solid #ccc; background: white;width: 245px;left: 1043px;position: absolute;">
+            <div id="queryPanelTitle"  style="position: relative; padding-left: 15px; padding-top: 18px;"> </div>
+            <a href="javascript:void(0)" class="close" title="关闭" onclick="closePanel('#queryPanel')" style="  position: absolute;  right: 5px;  top: 4px;">关闭</a>
+            <table>
+                <tbody>
+                <tr>
+                    <td style="width: 60px;">选择车辆</td>
+                    <td>
+                        <input id="txtVehicle" style="width:150px"></input>
+                        <input id="txtVehicleId" style="width:150px; display:none;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>时间段</td>
+                    <td><select id="playTimeSpace" name="playTimeSpace"
+                                onchange="onPlayTimeSpaceChg()" class="selectCom" style="width:152px">
+                        <option value="-1">自定义</option>
+                        <option value="-4">4小时</option>
+                        <option value="-6">6小时</option>
+                        <option value="-8">8小时</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>
+                        <div class="comWdate">
+                            <input id="txtStartTime" class="easyui-datetimebox"
+                                   value="" missingMessage="xxx必须填写"
+                                   style="width: 152px;" editable="false">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>结束时间</td>
+                    <td>
+                        <div class="comWdate">
+                            <input id="txtEndTime" class="easyui-datetimebox"
+                                   value="" missingMessage="xxx必须填写"
+                                   style="width: 152px;" editable="false">
+                        </div>
+                    </td>
+                </tr>
+                <tr id="timeP">
+                    <td>时间间隔</td>
+                    <td><select id="timeSel" class="selectCom"
+                                style="width: 152px;">
+                        <option value="-1" selected="selected">精确</option>
+                        <option value="60">1分钟</option>
+                        <option value="180">3分钟</option>
+                        <option value="300">5分钟</option>
+                        <option value="600">10分钟</option>
+                        <option value="900">15分钟</option>
+                        <option value="1800">30分钟</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a id="txtSearch" class="buttonCom"
+                                       href="javascript:void(0)"> <i class="inquire"></i><span>查询</span>
+                    </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+        <!--查询显示面板-->
+
+        <!-- 规划路线表单 -->
+
+        <!-- 规划路线表单  end-->
+        <div id="queryControlBox" class="fix" style="display: none;">
+            <img id="msgLoadImg" alt="" src="../img/big_loading.gif"
+                 style="vertical-align: middle; width: 20px; height: 20px;"><span
+                id="msgSpan"></span>
+            <font class="closd_icon"><img src="../img/closed.png"/></font>
+        </div>
+        <!--轨迹播放器-->
+        <div id="playControlBox"  class="easyui-draggable"  style="z-index:999;display:none;">
+            <div id="playControlTitle" style="height: 5px;"> </div>
+            <div id="playControl">
+                <a class="play" id="playTrack" href="javascript:void(0)" title="播放"><i
+                        class="play"> 播放</i></a> <a href="javascript:void(0)" id="pauseTrack"
+                                                    title="暂停" style="display: none;"> <i class="stop">暂停</i></a> <a
+                    href="javascript:void(0)" id="stopTrack" title="停止"><i class="pause">停止</i></a>
+            </div>
+            <div id="progressBox" class="easyui-progressbar"
+                 style="width: 200px;"></div>
+            <span>慢</span>
+            <div id="playSpeedBox">
+                <input id="txtPlaySpeed" class="easyui-slider" style="width: 80px"
+                       data-options="showTip:false">
+            </div>
+            <span>快</span>
+            <div id="playOperate">
+                <a id="clearLines" href="javascript:void(0)" title="清除轨迹">
+                    <i class="clear">清除轨迹</i>
+                </a>
+            </div>
+            <div id="exprotpan" class="trackBox" style="display: none;">
+                <ul class="listCom">
+                    <li><a id="exportFileBtnExcel" href="javascript:void(0)"
+                           title="导出到Excel" onclick="exportFileBtnClick(1);"> 导出到Excel</a></li>
+                    <li><a id="exportFileBtnPdf" href="javascript:void(0)"
+                           title="导出PDF" onclick="exportFileBtnClick(2);"> 导出PDF</a></li>
+                </ul>
+            </div>
+            <div id="saveLineSelDiv" class="trackBox" style="display: none;">
+                <ul class="listCom">
+                    <li id="cLineLi"><a id="cLineLi_a" href="javascript:void(0)"
+                                        title="保存自定义线路"><em class="lGreen"></em><span>保存部分线路</span></a></li>
+                    <li id="allLineLi"><a id="allLineLi_a" href="javascript:void(0)"
+                                          title="保存原始线路"><em></em><span>保存全部线路</span></a></li>
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- 找加油站 找停车场 找高速路出入口 找收费站 -->
+
+        <!-- end -->
+        <div id="areaQueryPanel" class="easyui-draggable"  >
+
+            <div id="areaQueryTitle" style="padding:5px;"><span>车辆查询</span>
+                <a  href="javascript:void(0)" class="close"  title="关闭" onclick="closeSearchPanel('#areaQueryPanel','mapinfo')" >关闭</a>
+
+            </div>
+            <table id="areaQueryTable"></table>
+            <div id="areaQueryPager"></div>
+        </div>
+
+        <div id="loading" class="trackBox" >
+            <p>
+                <img alt="" src="../img/big_loading.gif"><span>正在加载数据，请稍候...</span>
+            </p>
+        </div>
+        <!--轨迹列表-->
+        <div id="nResizeMoveDiv" class="butDragMove"
+             style="height: 251px; top: 8px; width: 1144px; display: none"></div>
+        <div id="nResizeDiv" class="butDrag" title="拖拽">
+            <p>拖拽</p>
+        </div>
+        <div id="tabTopDiv" class="tableTop fix">
+            <div id="carTips">
+                <ul id="ctrlPanelUl" class="fix">
+                    <li id="trackPoitLi" class="now" panelId="trackPanelDiv">
+                        <a href="javascript:void(0)"><i class="cTrackPoit"></i><span>轨迹点</span></a></li>
+                    <li style="display: none;" id="stopCarLi" panelId="stopCarLiDiv">
+                        <a	href="javascript:void(0)"><i class="cStopCar"></i><span>停车</span></a></li>
+                    <li style="display: none;" id="areaCarLi" panelId="areaCarDiv">
+                        <a href="javascript:void(0)"><i class="cAreaCar"></i><span>区域</span></a></li>
+                    <li style="display: none;" id="deadZoneCarLi" panelId="deadZoneCarDiv">
+                        <a href="javascript:void(0)"><i class="cDeadZoneCar"></i><span>盲区数据</span></a></li>
+                    <li style="display: none;" id="drivingCarLi" panelId="drivingCarDiv">
+                        <a href="javascript:void(0)"><i class="cDrivingCar"></i><span>行驶段数据</span></a></li>
+                    <li style="display: none;" id="alarmLi" panelId="alarmDiv">
+                        <a href="javascript:void(0)"><i class="cAlarm"></i><span>报警</span></a></li>
+                    <li style="display: none;" id="imagesLi" panelId="imagesDiv">
+                        <a href="javascript:void(0)"><i class="cImg"></i><span>图片</span></a></li>
+                    <li style="display: none;" id="chartCarLi" panelId="chartCarDiv">
+                        <a href="javascript:void(0)"><i class="cChartCar"></i><span>图表</span></a></li>
+                </ul>
+            </div>
+            <div class="tableOperate" id="tableOperateDiv">
+                <!-- <a href="javascript:void(0)" title="导出Excel" id="exportTableInfo"><i class="tExcel">导出Excel</i></a> -->
+                <a href="javascript:void(0)" title="窗口化" id="setToolWindow"> <i class="minify">窗口化</i></a>
+                <a href="javascript:void(0)" title="最小化" id="setToolMin" style="display:none;"><i class="min">最小化</i></a>
+                <a href="javascript:void(0)" title="最大化" id="setToolMax" ><i class="max">最大化</i></a>
+            </div>
+        </div>
+        <div id="monitorList" style="height: 200px; width: 100%;" class="">
+
+            <div id="trackPanelDiv" style="height: 100%; width: 100%;">
+                <div id="gridbox" style="height:162px;width:100%;background-color:white;"></div>
+            </div>
+            <div id="stopCarLiDiv" style="height: 100%; width: 100%;display: none;">
+                <div id="stopTrackTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="areaCarDiv" style="height: 100%; width: 100%;display: none;">
+                <div id="areaCarTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="deadZoneCarDiv"style="height: 100%; width: 100%;display: none;">
+
+                <div id="blindAreaTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="drivingCarDiv"style="height: 100%; width: 100%;display: none;">
+                <div id="runTrackTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="alarmDiv" style="height: 100%; width: 100%;display: none;">
+                <div id="alarmTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="imagesDiv" style="height: 100%; width: 100%;display: none;">
+                <div id="imagesTable2" style="width:100%;background-color:white;"></div>
+            </div>
+            <div id="chartCarDiv" style="height: 100%; width: 100%; display: none;position: relative;  background: white;">
+                <div id="mile" style="height:280px;border:1px solid #ccc;padding:10px;"></div>
+                <div id="speed" style="height:280px;border:1px solid #ccc;padding:10px;"></div>
+            </div>
+        </div>
+        <div id="dashboardPanel" style="left:0px;top:200px;cursor: move;display:none" class="easyui-draggable"  >
+           <!-- <div id="areaQueryTitle" style="position: relative;">
+                <a  href="javascript:void(0)" class="close"  title="关闭" onclick="closePanel('#dashboardPanel')" >关闭</a>
+                <p style="padding-top: 20px;">
+                    <span style="width:15px;display:inline-block;"></span>
+                    <span>车牌号:</span>
+                    <span id="dashboardPanelVrn" style="width:140px;display:inline-block;"></span>
+                    <span>时间:</span>
+                    <span id="dashboardPanelTime" style="width:140px;display:inline-block;"></span>
+                </p>
+
+                <div id="dashboard" style="width:420px;height: 235px; "></div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../js/map/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="../js/trackback/grid.locale-cn.js"></script>
+
+<!-- easyui  -->
+<script type="text/javascript" src="../js/map/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/trackback/easyui-lang-zh_CN.js"></script>
+
+<script type="text/javascript" src="../js/map/tool.js"></script>
+<script type="text/javascript" src="../js/trackback/echarts.js"></script>
+<script type="text/javascript" src="../js/trackback/imgSlide.js"></script>
+<!--<script src="<%=basePath%>resources/js/echarts/build/dist/echarts.js"></script>
+<script src="<%=basePath%>resources/js/imgSlide.js"></script>-->
+<script type="text/javascript" src="../js/map/mapTool.js?v=1"></script>
+<script type="text/javascript" src="../js/trackback/trackControllerNew.js?v=5"></script>
+</body>
+</html>

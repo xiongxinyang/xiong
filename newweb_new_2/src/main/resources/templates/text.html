@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/map/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../js/map/json2.js"></script>
+
+
+    <script src="../js/map/reconnecting-websocket.min.js"></script>
+    <script src="../js/text/commandsent.js"></script>
+</head>
+<body>
+<input type="button" value="发送指令" id="btn_send" onclick="sendcommand()">
+<input type="button" value="关闭指令" id="btn_close" onclick="disconnect()">
+<textarea id="input_text" style="width: 1000px;height: 200px;"></textarea>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>指令发送</title>
+    <link href="../../img/favicon.ico" type="image/x-icon" rel="icon" />
+    <link id="linkurl" href="../../css/blueStyle.css"  rel="stylesheet" />
+    <link href="../../css/common.css?v=4"  rel="stylesheet" />
+    <link href="../../css/monitor.css?v=1.0.0"  rel="stylesheet" />
+
+    <link href="../../css/jquery-ui-1.9.1.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css"   href="../../css/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css"   href="../../css/ui.jqgrid.css" />
+    <link href="../../css/easyui.css" rel="stylesheet"/>
+
+    <link href="../css/zTreeStyle.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="../../js/map/json2.js"></script>
+    <!-- jQuery 一定要放在最前面-->
+    <script src="../../js/map/jquery-1.8.2.min.js"></script>
+    <!-- 优化加载速度  劳  end -->
+    <script type="text/ecmascript" src="../../js/map/jquery.jqGrid.min.js"></script>
+    <script type="text/ecmascript" src="../../js/map/grid.locale-cn.js"></script>
+    <script type="text/script" src="../../js/map/jquery.ztree.all-3.5.js"></script>
+    <!-- 导航栏 end-->
+
+    <script type="text/ecmascript" src="../../js/map/jquery.easyui.min.js"></script>
+
+    <script src="../js/map/tool.js"></script>
+    <script src="../js/map/HashMap.js"></script>
+
+    <!-- ztree -->
+    <script src="../js/map/jquery.ztree.all-3.5.js"></script>
+
+    <script type="text/javascript">
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                }
+            }
+            return theRequest;
+        }
+        var Request = new Object();
+        Request = GetRequest();
+        var vehicleNO =Request['vehicleno'];
+        vehicleNO=decodeURIComponent(vehicleNO);
+        var vehicleId = getQueryString("vehicleId");
+
+
+        $(function() {
+            ChangeFrameSrc(10);
+        });
+
+
+        function ChangeFrameSrc(type) {
+            var src="";
+            switch (type)
+            {
+                case 3:
+                    src="commandSearchPhoto.html?vehicleID="+vehicleId+"&vehicleno="+encodeURIComponent(vehicleNO);
+                    break;
+                case 10:
+                    src="commandTerminal.html?vehicleID="+vehicleId+"&vehicleno="+encodeURIComponent(vehicleNO);
+                    break;
+            }
+            $("#rightTreeIframe").attr("src",src);
+        }
+
+    </script>
+
+</head>
+<body class="index" style="overflow:hidden;">
+<div id="mapMain" class="fix" style="">
+    <div id="left">
+        <div id="treeList" style="overflow:hidden; position: relative;height: 698px ">
+
+            <iframe  src="commandTree.html" id="leftTreeIframe" name="leftTreeIframe"  width="100%" style="border: 0px;" marginwidth="0" height="100%" frameborder="0" scrolling="no" ></iframe>
+        </div>
+
+    </div>
+
+    <div id="right" class="" style=" width: 1140px;float:left;height:100%;">
+
+        <div id="map" style="width:100%;height:100%;">
+            <iframe  src="" id="rightTreeIframe" name="leftTreeIframe"  width="100%" style="border: 0px;" marginwidth="0" height="100%" frameborder="0" scrolling="no" ></iframe>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+</body>
+</html>

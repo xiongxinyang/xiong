@@ -1,0 +1,292 @@
+@charset "utf-8";
+/* CSS Document */
+body,dl,dd,ul,ol,h1,h2,h3,h4,h5,h6,form,p,input{ margin:0; padding:0;}
+body,td,th,h1,h2,h3,h4,h5,h6{ font: 12px/1.5em Arial,Microsoft YaHei,Verdana,Tahoma,Simsun,Arial Unicode MS,Mingliu,Helvetica;}
+body,html{ width:100%; height:100%;-moz-user-select:none;-webkit-user-select:none;}
+address,caption,em,th,i,var{font-style:normal;}
+ol,ul{ padding:0; list-style-type:none;}
+table{ border-collapse:collapse; border-spacing:0;}
+a img{ border:none;}
+input,textarea,button,select{font-family:Microsoft YaHei;}
+input::-moz-focus-inner{ border:0;}
+.fix:after{ content:'.'; display:block; clear:both; visibility:hidden; height:0px;}
+.fix{ zoom:1;}
+/*link*/
+a{ outline:none; text-decoration:none;}
+a:link,a:visited{ color:#444;}
+a:hover{ color:#219bd0;}
+
+.left{ float:left;}
+.right{ float:right;}
+#map{ position:relative; padding-top:36px;}
+#mapImg_Google{ background:#dfecf3; width:100%; height:100%;}
+#mapImg_Baidu{ background:#dfecf3; width:100%; height:100%;}
+/*tools*/
+#mapTools{ position:absolute; top:0; left:0; width:100%; height:36px; border-bottom:1px solid #b1b1b1; box-shadow:0 1px 4px rgba(0,0,0,0.2); background:-moz-linear-gradient(top,#fff,#e4e4e4); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#e4e4e4)); background:url(images/bg_repeat.png) repeat-x 0 -169px\9; background:linear-gradient(to bottom,#fff,#e4e4e4);}
+#mapTools ul li{ float:left; font-size:12px; border:1px solid transparent; border-width:0 1px;}
+#mapTools ul li.now{ background:#fdfdfd; border:1px solid #b1b1b1; border-width:0 1px; height:37px;}
+#mapTools ul li a{ display:block; padding:0 10px; color:#444; line-height:36px;}
+#mapTools ul li a:hover i.drawSearch{background: url(../img/drawSearch_hover.png) no-repeat;}
+#mapTools ul li a:hover i.mapTools{background: url(../img/mapTools_hover.png) no-repeat;}
+#mapTools ul li a:hover i.matterMap{background: url(../img/matterMap_hover.png) no-repeat;}
+#mapTools ul li a:hover i.mapAll{background: url(../img/mapAll_hover.png) no-repeat;}
+#mapTools ul li a:hover i.lukuang{background: url(../img/lukuang_hover.png) no-repeat;}
+#mapTools ul li a:hover i.mapQuitAll{background: url(../img/mapQuitAll_hover.png) no-repeat;}
+
+#mapTools ul li a i{ float:left; margin:5px 5px 0 0;}
+#mapTools ul li a span em{ text-shadow:1px 1px 0 #fff;}
+#mapTools .comSearch{ margin:5px 5px 0 0; border-radius:15px; background: #fff;}
+#mapTools .comSearch .inp{ line-height:25px; font-size:12px;border-radius:15px; border:0px; outline: none; text-indent: 15px; }
+#mapTools .comSearch .bot,#mapTools .comSearch .botOver{}
+#mapSwitch{ position:absolute; top:45px; right:8px;}
+#mapSwitch a{ display:block; width:59px; height:55px; background:url(../img/icon_map.png) no-repeat; text-indent:-9999px;}
+#mapSwitch a:hover{ opacity:0.8;}
+#mapSwitch a.satellite{ background-position:0 -96px;}
+#mapSwitch a.flat{ background-position:0 -150px;}
+.butDrag{ position:relative; height:5px; background:#fcfcfc\9; background:-moz-linear-gradient(top,#fff,#eee); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#eee)); background:linear-gradient(to bottom,#fff,#eee); border-top:1px solid #b1b1b1; box-shadow:0 -1px 4px rgba(0,0,0,0.2); text-align:center;}
+.butDrag p{ height:5px; background:url(../img/icon_drag.png) no-repeat 50% 0; overflow:hidden; text-indent:-9999px;}
+.butDrag:hover{ background:#ffffef\9; background:-moz-linear-gradient(top,#ffffef,#f9f9dc); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#ffffef), to(#f9f9dc)); background:linear-gradient(to bottom,#ffffef,#f9f9dc); cursor:n-resize;}
+.butDragMove{ position:absolute; width:100%; background:url(../img/bg_alphaBlack.png) repeat\9; background-color:rgba(207,231,254,0.3); border-top:3px dotted rgba(0,0,0,0.5); border-top:3px dashed #444\9; cursor:n-resize; z-index:999;}
+/*layer*/
+.mapLayer,.toolsLayer{z-index:99999;position:absolute; background:#fdfdfd; border-radius:3px; border:1px solid #b1b1b1; box-shadow:0 1px 2px #ccc; font-size:12px;}
+.toolsLayer{ border-radius:0 0 3px 3px; border-top:none;z-index: 99999;}
+.downLayer{ font-size:12px;}
+.downLayer li{ border-bottom:1px solid #dcdcdc; overflow:hidden;padding:0px 18px; vertical-align: middle;}
+.downLayer li span{  vertical-align: middle; height: 33px; line-height: 33px;float: left; display: block; margin-left: 4px; padding: 0px;}
+.downLayer li:hover{ background:#ececec; cursor:pointer;}
+.downLayer li:last-child{ border-bottom: 0px; }
+.downLayer li i{display:block; float:left; width:16px; height:16px; position:relative; top:8px;}
+.downLayer a{ color:#b1b1b1;}
+.downLayer a:hover{ color:#219bd0;}
+.downLayer a.add,.downLayer a.show,.downLayer a.hide{ display:block; float:left; width:16px; height:16px; margin:8px 3px 0 0; background:url(../img/icon_map.png) no-repeat; text-indent:-9999px;}
+.quyu{display:block; float:left;margin:5px 3px 0 0;}
+.downLayer a.add{ background-position:-16px -64px; margin-right:5px;}
+.downLayer a.show{ background-position:0 -64px;}
+.downLayer a.hide{ background-position:0 -80px;}
+.downLayer a.mapDefault{ color:#0078b6;display: block; height: 33px; line-height: 33px;}
+.downLayer a:hover.mapDefault{ color:#219bd0;}
+.sdownLayer{ position:absolute; background:#f8f8f8; border-radius:3px; border:1px solid #b1b1b1; box-shadow:0 1px 5px #888; font-size:12px;}
+.sdownLayer li{ height:23px; line-height:23px; padding:0 20px 0 10px;}
+.sdownLayer li:hover{ background:#fff; cursor:pointer; color:#219bd0;}
+.cityListLayer{ padding:5px 10px; font-size:12px;}
+.cityListLayer .hotCity,.cityListLayer .line,.cityListLayer .searchCity{ padding:8px 5px;}
+.cityListLayer .cityList a,.cityListLayer .hotCity a,.cityListLayer .line a{ padding:2px 3px; color:#0078b6; margin-right:5px; display:inline-block;}
+.cityListLayer .cityList a:hover,.cityListLayer .hotCity a:hover,.cityListLayer .line a:hover{ color:#219bd0;}
+.cityListLayer .cityList a.selected,.cityListLayer .hotCity a.selected{ background:#fcedb1;}
+.cityListLayer .line{ border-bottom:1px solid #dcdcdc; box-shadow:0 1px 0 #fff;}
+.cityListLayer .searchCity{ background:#f5f5f5;}
+.cityListLayer .searchCity a{ display:block; float:left; height:22px; line-height:22px; border-radius:3px; border:1px solid #aaa; background-image:-moz-linear-gradient(top,#fafafa,#e6e6e6); background-image:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fafafa), to(#e6e6e6)); background:url(../img/bg_repeat.png) repeat-x 0 -230px\9; background:linear-gradient(to bottom,#fafafa,#e6e6e6); padding:0 5px; color:#444; margin:3px 0 0 0;}
+.cityListLayer .searchCity a.bl{ border-radius:3px 0 0 3px; border-right:none;}
+.cityListLayer .searchCity a.br{ border-radius:0 3px 3px 0;}
+.cityListLayer .searchCity a.now{ background:#e6e6e6; font-weight:700;}
+.cityListLayer span{ margin-right:10px;}
+.cityListLayer h2,.cityListLayer h3,.cityList td,.cityListLayer .comSearch input{ font-size:12px;border:0px;}
+
+/*.bot,.botOver{float:right; width:20px; height:20px; background:url(../images/searchIco.png) no-repeat ; cursor:pointer; margin:3px 5px 0 0; overflow:hidden;outline: none;}*/
+.cityListLayer h2,.cityListLayer h3{ font-weight:700; word-break:keep-all; white-space:nowrap;}
+.cityListLayer table td{ padding:6px 8px 6px 0;}
+.cityListLayer .cityList{ height:200px; overflow:auto;}
+.cityListLayer .cityList b a,.cityListLayer .cityList b a:hover{ font-size:24px; color:#ccc;}
+.cityListLayer .cityList h3 a,.cityListLayer .cityList h3 a:hover{ cursor:default; color:#888;}
+.cityListLayer .comSearch{ width:140px; margin:1px 0 3px 0;}
+.cityListLayer .comSearch input#searchCityTxt{margin:0;height:18px; line-height:18px;padding:4px 0;text-indent:.5em;}
+i.tZoom,i.clear,i.mDot,i.tTips,i.talkPlay,i.talkPlayNo,i.talkStop,i.videoPlay,i.videoPlayNo,i.videoStop,i.passage{ display:block; width:16px; height:16px; text-indent:-9999px; /* background:url(../images/icon.png) no-repeat; */ overflow:hidden; text-align:left;}
+i.tTips{ background-position:-262px 0;}
+/* ����С��ͷ */
+.arrow{ display:inline-block; width:7px; height:4px; line-height:13px; overflow:hidden; font-size:12px; vertical-align:middle; margin-left:5px;}
+.arrow em{ display:inline-block; font-family:SimSun; position: relative;top:-7px;left:-2px}
+/*icon*/
+i.drawSearch,i.carOneself,i.carOthers,i.goods,i.oil,i.park,i.highSpeed,i.tollStation,i.matterMap,i.lukuang,i.dot,i.line,i.cover,i.navigation,i.weather,i.road,i.mapTools,i.mapZoom,i.mapLessen,i.mapMove,i.mapMeasure,i.mapAll,i.mapQuitAll,i.carInfoMoer,i.dotAdd,i.coverAdd,i.locus,i.vehicleManage,i.alter,i.removePanic,i.keyword,i.alarmSite,i.carTemperature{ display:block; width:25px; height:25px; text-indent:-9999px; background:url(../img/monitor_ico.png) no-repeat;}
+i.dotAdd{background: url(../img/edit.png) no-repeat; width: 20px;height:20px; }
+i.coverAdd{background: url(../img/cover.png) no-repeat; width: 20px;height:20px;}
+i.drawSearch{background:url(../img/drawSearch.png) no-repeat;display:block; width:25px; height:25px;}
+li.now i.drawSearch{background:url(../img/drawSearch_hover.png) no-repeat;}
+i.mapTools{background:url(../img/mapTools.png) no-repeat;display:block; width:25px; height:25px;}
+li.now i.mapTools{background:url(../img/mapTools_hover.png) no-repeat;}
+
+i.matterMap{background:url(../img/matterMap.png) no-repeat;display:block; width:25px; height:25px;}
+li.now i.matterMap{background:url(../img/matterMap_hover.png) no-repeat;}
+
+i.lukuang{background:url(../img/lukuang.png) no-repeat;display:block; width:25px; height:25px;}
+li.now i.lukuang{background:url(../img/lukuang_hover.png) no-repeat;}
+
+i.mapAll{background:url(../img/mapAll.png) no-repeat 50% 50%;display:block; width:25px; height:25px; }
+i.mapMeasure{background:url(../img/mapMeasure.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+
+i.mapZoomIn{background:url(../img/mapZoomIn.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+i.mapZoomOut{background:url(../img/mapZoomOut.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+i.mapPrint{background:url(../img/mapPrint.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+
+i.carOneself{background:url(../img/carOneself.png) no-repeat 50% 50%;display:block; width:25px; height:25px; }
+i.oil{background:url(../img/oil.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+i.park{background:url(../img/park.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+i.highSpeed{background:url(../img/highSpeed.png) no-repeat 50% 50%;display:block; width:25px; height:25px; }
+i.tollStation{background:url(../img/tollStation.png) no-repeat 50% 50%;display:block; width:25px; height:25px; }
+i.navigation{background:url(../img/navigation.png) no-repeat 50% 50%;display:block; width:20px; height:25px;}
+i.dot{background:url(../img/dot.png) no-repeat 50% 50%;display:block; width:20px; height:33px; line-height: 33px;}
+i.road{background:url(../img/road.png) no-repeat 50% 50%;display:block; width:20px; height:20px;}
+i.cover{background:url(../img/cover.png) no-repeat 50% 50%;display:block; width:20px; height:20px;}
+i.mapQuitAll{background:url(../img/mapQuitAll.png) no-repeat 50% 50%;display:block; width:25px; height:25px;}
+i.line{ background-position: -438px -76px;width:20px; height:20px;}
+i.linePath{background:url(../img/tips_arrowR.png) no-repeat 50% 50%;display:block; width:20px; height:20px;}
+i.carOthers{ background-position:-32px 0;}
+i.goods{ background-position:-48px 0;}
+i.weather{ background-position:-80px -16px;}
+/* i.dotAdd{ background-position:-112px -16px;}
+i.coverAdd{ background-position:-128px -16px;}
+ */
+
+i.locus{ background-position:-144px -16px;}
+i.vehicleManage{ background-position:-160px -16px;}
+i.alter{ background-position:-176px -16px;}
+i.removePanic{ background-position:-192px -16px;}
+i.keyword{ background-position:-208px -16px;}
+i.alarmSite{ background-position:-224px -16px;}
+
+i.mapZoom{ background-position:-16px -32px;}
+i.mapLessen{ background-position:-32px -32px;}
+i.mapMove{ background-position:-48px -32px;}
+
+
+i.carInfoMoer{ background-position:-32px -48px;}
+i.carTemperature{ background-position:-48px -48px;}
+a.close{ display:block; width:20px; height:20px; text-indent:-9999px; background:url(../img/icon.png) no-repeat 0 -32px;}
+a:hover.close{ background-position:-20px -32px;}
+#mapMain{ width: 100%; height: 100%;}
+#rightt{ position:relative; width:100%; height:100%;}
+#mapp{ position:absolute; top:0px; width:100%;bottom:65px; padding-top: 37px;}
+#mapTools{ position:absolute;top:0px;  height:36px; width:100%;}
+.mapSelect{display:block; float:left; width:16px; height:16px;}
+
+
+
+#foot{ position:absolute; left:0px; bottom:0px; width:100%;height:65px; z-index: 99;}
+
+/* #tabTopDiv{ height:34px; border-top:1px solid #b1b1b1; line-height:34px;} */
+
+#nResizeMoveDiv{position:absolute; width:100%;  bottom:0px;cursor:n-resize; display: none;}
+
+#loading{ display: none; padding:10px 10px; position:absolute; top:35%; left:50%; margin:-15px 0 0 -80px;}
+#loading img,#loadingDiv span{ vertical-align:middle; margin:0 5px;}
+
+/* 区域查找*/
+#areaQueryPanel{  display: none; width:550px;height:285px;background:#fafafa;border:1px solid #ccc;margin-top:10px;position: absolute;left: 221px;top: 318px;}
+#areaQueryPanel a.close{position:absolute; right: 5px; top: 4px;}
+
+/* 车辆信息*/
+#vehicleInfoPanel{display: none;width:580px;background:#fff;border:1px solid #ccc;margin-top:10px;position: absolute;left: 600px;top: 100px;padding-bottom: 10px;}
+#vehicleInfoPanel a.close{position:absolute; right: 5px; top: 4px;}
+.vehicleInfoTitle{ padding: 5px 20px;}
+.vehicleInfoTitle  span{ display: block; height:30px; line-height:30px; border-bottom:2px solid #feb900;font-size: 18px;}
+.form-horizontal table input{width:150px;}
+#vehicleInfoBody{padding-top: 10px;}
+#dashboardPanel{   z-index: 99999;width:420px;height:285px;background:rgba(255,255,255,0.9);border:1px solid #ccc;position: absolute;left: 221px;top: 318px; overflow: hidden;}
+#dashboardPanel a.close{position:absolute; right: 5px; top: 4px;}
+.yc_bottom{text-align: right;padding-right:40px;}
+.yc_bottom input{  border-radius:0px;background:#f5f5f5;border:1px solid #d1d1d1;color: #333;}
+.yc_bottom input:first-child{background:#feb900;border:1px solid #feb900;color:#fff;}
+.yc_bottom input:first-child:hover{background:#feb900!important;color:#fff!important;}
+.yc_bottom input:hover{ background:#f5f5f5!important;color:#333!important;}
+
+/*区域类型选择弹出层*/
+#selectAreaType{ position:absolute; top:50%; left:50%; margin:-100px 0 0 -200px; z-index:99999;}
+#selectAreaType ul{ overflow:hidden; padding:20px 25px;}
+#selectAreaType ul li{ float:left; padding:10px 15px; margin:10px; cursor:pointer;}
+#selectAreaType ul li:hover{ border-radius:3px; box-shadow:0 0 3px #adadad; background:#fff;}
+#selectAreaType ul li i{ display:block; width:50px; height:50px; margin:0 auto;}
+#selectAreaType ul li i.rectangle{ background:url(../img/rectangle.png) no-repeat; }
+#selectAreaType ul li i.polygon{ background:url(../img/polygon.png) no-repeat; }
+#selectAreaType ul li i.circle{ background:url(../img/circle.png) no-repeat; ;}
+#selectAreaType ul li span{ display:block; line-height:normal; margin-top:5px;}
+
+/*线路类型选择弹出层*/
+#selectLineType{ position:absolute; top:50%; left:50%; margin:-100px 0 0 -200px; z-index:99999;}
+#selectLineType ul{ overflow:hidden; padding:20px 25px;}
+#selectLineType ul li{ float:left; padding:10px 15px; margin:10px; cursor:pointer;}
+#selectLineType ul li:hover{ border-radius:3px; box-shadow:0 0 3px #adadad; background:#fff;}
+#selectLineType ul li i{ display:block; width:50px; height:50px;  margin:0 auto;}
+#selectLineType ul li i.navLine{background:url(../img/navLine.png) no-repeat; }
+#selectLineType ul li i.customLine{ background:url(../img/customLine.png) no-repeat; }
+#selectLineType ul li span{ display:block; line-height:normal; margin-top:5px;}
+
+
+/*隐藏百度logo*/
+.anchorBL a
+{
+    display:none;
+}
+.anchorBL span
+{
+    display:none;
+}
+
+.mapmain{position: absolute;top:37px;left: 0px;width: 100%; bottom:8px;}
+.mapmain_left{position: absolute;left: 0px; width: 37px; top:8px; bottom:0px;}
+.mapmain_left a{ display: block; height:113px;background:url(../img/mapmain_left_icon.png) no-repeat 50% 50%;position: absolute;top:50%; margin-top: -56px; left: 0px; width:100%;cursor: pointer;}
+.mapmain_left a:hover{background:url(../img/mapmain_left_icon_hover.png) no-repeat 50% 50%;}
+.mapmain_right{position: absolute;right: 0px; width: 37px; top:8px;bottom:0px;}
+.mapmain_right a{display: block; height:113px;background:url(../img/mapmain_right_icon.png) no-repeat 50% 50%;position: absolute;top:50%; margin-top: -56px; left: 0px; width:100%; cursor: pointer;}
+.mapmain_right a:hover{background:url(../img/mapmain_right_icon_hover.png) no-repeat 50% 50%;}
+.map_count{ height: 100%;position: absolute;left: 37px;right: 37px;top:0px; bottom: 0px;}
+.mapUl{ overflow: hidden; height: 100%; padding-top: 8px;box-sizing:border-box;}
+.mapUl li{ width: 50%;box-sizing:border-box; height: 50%; float: left; padding-top:2px;position: relative;border: 1px solid #ccc; background: #ccc;}
+
+.mapUl li:nth-child(odd){padding-right:1px;}
+.mapUl li:nth-child(even){ padding-left:1px;}
+.mapUl li:nth-child(1),.mapUl li:nth-child(2){padding-top: 0px}
+.mapUldiv{display: block;width: 100%; height: 100%;position: relative; padding: 2px;box-sizing:border-box; background: #fff;}
+.right_icon{background: #fff;position: absolute;right: -0px; top:0px;border-left: 1px solid #ccc;border-bottom: 1px solid #ccc;padding: 3px 5px; background: #fdfdfd }
+.right_icon a{display: inline-block; width: 27px; height:27px; padding: 0 3px; }
+.right_icon a.maptool_icon{background:url(../img/maptool/maptool_icon1.png) no-repeat 50% 50%; }
+.right_icon a.maptool_icon:hover{background:url(../img/maptool/maptool_icon1_hover.png) no-repeat 50% 50%; }
+.right_icon a.maptool_icon_all{background:url(../img/maptool/maptool_icon4.png) no-repeat 50% 50%; }
+.right_icon a.maptool_icon_all:hover{background:url(../img/maptool/maptool_icon4_hover.png) no-repeat 50% 50%; }
+
+/*搜索框*/
+.comSearch{overflow:hidden; border-radius: 15px; height:25px;border-radius:50px;box-shadow:0 1px 2px #d2d2d2;border:1px solid #d2d2d2;/*background:url(../images/bg_repeat.png) repeat-x 0 -205px;*/ background-color:#fff!important; position:relative; padding-right:25px;}
+.comSearch .vehicleInp{float:left;width:100%;height:25px;line-height:25px; padding:0; margin:0; color:#c0c0c0; text-indent:.5em; background-color:#fff!important; -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow:none;}
+.comSearch .inp{ float:left; height:25px; line-height:25px; padding-left:3px;color:#c0c0c0; border-radius: 15px;}
+.comSearch .botOver{ background-position:-200px 0;}
+.comSearch .btnVehicle,.bot,.comSearch .botOver{ float:right; width:20px!important; height:20px; background:url(../img/searchIco.png) no-repeat ; cursor:pointer; margin:3px 5px 0 0; overflow:hidden; position:absolute; top:2px; right:2px; margin:0;}
+.comSearch .vehicleInp:focus, .comSearch .inp:focus{ -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow:none;}
+
+.top_go{width:23px; height:25px;background:url(../img/bottom_go.png) no-repeat;vertical-align:top; cursor: pointer; }
+.top_go:hover{background:url(../img/bottom_go_hover.png) no-repeat;}
+
+.importNav{background:url(../img/top_go.png) no-repeat;}
+.importNav:hover{background:url(../img/top_go_hover.png) no-repeat;}
+
+/*弹窗*/
+.popTr{background-color:#DFDFDF;}
+.downLayer li .mapchoice{display:block;float:left;width:16px;height:16px;background:url(../img/mapchoice.png) no-repeat 0 48%;}
+/*百度阴影地图车辆弹窗*/
+#mapDiv img{max-width:none;}
+/*定位服务-车辆集弹窗层-滚动条*/
+/*.BMap_bubble_content div{height:165px!important;}*/
+.tabActive{
+    width: 90px;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #fff;
+    margin-left: 3px;
+    border-bottom: 0px;
+    float: left;
+    position: relative;
+    margin-bottom: -2px;
+}
+.tabNormal{
+    width: 90px;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+    color: #000;
+    background-color: #d5d8de;
+    cursor: pointer;
+    margin-left: 3px;
+    float: left;
+}
+  
+  

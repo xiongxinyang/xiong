@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/common.css?v=4"  rel="stylesheet" />
+    <link href="../css/monitor.css?v=1.0.0"  rel="stylesheet" />
+    <link href="../css/jquery-ui-1.9.1.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css"   href="../css/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css"   href="../css/ui.jqgrid.css" />
+
+    <link href="../css/flexigrid.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script  type="text/javascript" src="../js/map/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript"  src="../js/map/flexigrid.js"></script>
+    <script type="text/ecmascript" src="../js/map/jquery.jqGrid.min.js"></script>
+    <script type="text/ecmascript" src="../js/map/grid.locale-cn.js"></script>
+    <script type="text/ecmascript" src="../js/map/jquery.ztree.all-3.5.js"></script>
+     <script src="../js/map/reconnecting-websocket.min.js"></script>
+   <!-- <script type="text/javascript" src="../js/sockjs_1.1.0.js"></script>-->
+
+    <script type="text/javascript" src="../js/map/HashMap.js"></script>
+    <script type="text/javascript" src="../js/track/vehicleTree.js?v=6"></script>
+    <script type="text/javascript">
+
+        var basePath ="http://127.0.0.1:8080";
+        var webSocketUrl = "ws://127.0.0.1:8080";
+        var webSocketUrlSockJS = "http://127.0.0.1:8080/";
+
+      /*  var basePath ="http://36.41.185.148:11805";
+        var webSocketUrl = "ws://36.41.185.148:11805";
+        var webSocketUrlSockJS = "http://36.41.185.148:11805/";*/
+
+    </script>
+    <style type="text/css">
+        div.pGroup pReload pButton{display:none;}
+        div.pGroup .pcontrol  {display:none;}
+        .flexigrid div.bDiv { border: 1px solid #d0d0d0; border-top: 0px; background: #fff; position: relative; font-size: 12px;overflow-y: auto; overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+<div style="height:44px;width:100%;color: white;padding: 3px 0px 3px 0px;">
+    <div id="vehicleCountDiv" title="点击显示所有车辆"><span>0</span><span style="font-size: 14px; ">车辆数</span></div>
+    <div id="vehicleOnLineCountDiv" title="点击显示在线车辆"><span>0</span><span style="font-size: 14px; ">在线数</span></div>
+</div>
+<div id="treeList" style="overflow:hidden; position: relative; height: 625px;width:219px;">
+    <ul id="infoPanelUl" class="fix">
+        <li id="vehicleLi" class="now" panelId="vehicleTreeList"><input type="checkbox" id="ck_treeAll"  onclick="onTreeAllCheck()" />车辆</li>
+        <li id="seachLi"  panelId="vehicleSeachList">搜索集</li>
+    </ul>
+    <div id="vehicleTreeList" style=" height: 100%;">
+        <ul id="carTreeList" class="ztree" style="position:absolute;width:210px;overflow:auto; min-height:300px;border-top: 1px solid #ccc;"></ul>
+    </div>
+    <div id="vehicleSeachList" style=" height: 100%;display:none;">
+        <span id="commandSpan" title="点击打开指令面板">点击打开指令面板</span>
+        <table id="vehicleSeachTable"></table>
+        <div id="pager"> </div>
+    </div>
+
+</div>
+<div id="loadingDiv" style="">
+    <img alt="" src="../img/big_loading.gif">
+</div>
+<!-- 用于控制弹出窗口- -->
+<a id="txtOpenWindow" target="_blank" style="display: none"></a>
+</body>
+</html>

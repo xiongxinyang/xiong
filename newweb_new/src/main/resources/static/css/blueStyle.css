@@ -1,0 +1,34 @@
+/* .btn-primary_a,.btn_search{background: #5591F4;}��ѯ��ť */
+.flexigrid div.hDiv,.btn-primary_a,.btn_search{background: #5591F4!important}/* ��ͷ */
+.flexigrid div.hDiv th{color:#fff!important;background: #5591F4!important}
+#queryBtn{margin-right:0!important;width:60px!important;}
+
+/* ��������ť */
+.subResultTop .left a, .subResultTop .right a, .subResultTop .link a{float:right}
+.subResultTop .left a span{padding:0 5px;}
+.subResultTop .left a i.subupdate,.subResultTop .left a:hover i.subupdate{background:url(../img/greenStyle/btn_Sheet_Edit.png)}
+.subResultTop .left a i.subdelete,.subResultTop .left a:hover i.subdelete{background:url(../img/greenStyle/btn_Sheet_Delete.png)}
+.subResultTop .left a i.subinsert,.subResultTop .left a:hover i.subinsert{display:none;}
+.subResultTop .left a i.subexport,.subResultTop .left a:hover i.subexport{display:none}
+.subResultTop .left a i.subimport,.subResultTop .left a:hover i.subimport{display:none}
+.subResultTop .left a i.stopCar,.subResultTop .left a:hover i.stopCar{display:none}
+.subResultTop .left a:hover{background:#FDB800;}
+.subResultTop .left i, .subResultTop .left span{margin-left:0}
+.subResultTop .left a, .subResultTop .right a, .subResultTop .link a{padding:0 5px;margin:3px 5px 0 5px;background:#005BAC;color:#fff;}
+.combo-arrow{backgrund-color:"";background:url(../img/greenStyle/Arrow_Down.png) no-repeat center center;}
+.subResultTop{border-top:1px solid #868686;border-left:none;background:none;border-radius:initial;}
+
+/* ��ͼ�鿴 */
+ .left_menu>.left_menu_bg{background:#fff!important;border:1px solid #444;border-radius:3px;color:#444;}
+  .closeBox,.selectMenu, .left_menu_bg div:hover, .left_menu_bg li:hover{background:#005BAC!important;color:#fff;}
+#rightPanelSpan {background: url(../img/greenStyle/rightPanel.png) no-repeat 50% 50%!important;}
+i.drawSearch {background: url(../img/greenStyle/drawSearch.png) no-repeat!important;}
+i.mapTools {background: url(../img/greenStyle/mapTools.png) no-repeat!important;}
+i.matterMap {background: url(../img/greenStyle/matterMap.png) no-repeat!important;}
+i.lukuang {background: url(../img/greenStyle/lukuang.png) no-repeat!important;}
+i.mapAll {background: url(../img/greenStyle/mapAll.png) no-repeat!important; }
+i.setField {background: url(../img/greenStyle/mapTools.png) no-repeat!important;}
+#carTips ul li a.chli i.cTool {background: url(../img/greenStyle/monitor_icon1.png) no-repeat!important;}
+i.stop:hover {background: url(../img/greenStyle/maptool_icon5_hover.png) no-repeat!important}
+/* ������ر��� */
+.TO_ti{background:#fff;}

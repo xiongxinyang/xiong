@@ -1,0 +1,202 @@
+@CHARSET "utf-8";
+
+.linkMore a:hover,#footer .link a:hover{ color:#219bd0;}
+
+#mapMain{ position:absolute;  left:0; right:0; width:100%; overflow:hidden;}
+
+#left{ width:216px;float:left; border-left:1px solid #b9b9b9;border-right:1px solid #b9b9b9; box-shadow:-1px 0 4px rgba(0,0,0,0.2); background-color:white; position:relative;}
+#right{ width:804px; float:right;}
+#tabTopDiv{ border-top:1px solid #ddd; box-shadow:0 0 0 rgba(0,0,0,0);}
+
+ /*minLeft*/
+#minLeft{display:none;background:url(../img/monitor/maxLeft.png) no-repeat; left:0px; position:fixed; top:45px;width:28px;height:28px; border-radius:3px 0 0 3px;z-index:1000;cursor:pointer;}
+ 
+
+/*main*/
+#carTips{ float:left;}
+#carTips ul li{ float:left; margin:0 3px;position: relative;}
+
+#carTips ul li a.chli{ display:block; height:26px;font-size:12px; color:#888; padding:1px 10px 4px; border:1px solid transparent; border-width:0 1px;}
+#carTips ul li.now a.chli,#carTips ul li a.chli:hover{ background:#fff; border-color:#ddd; color:#000; border-bottom:2px solid  #ffba17;}
+#carTips ul li:first-child  a.chli:hover{background:none; border-bottom: 2px solid transparent ; border-left: 1px solid transparent;border-right: 1px solid transparent;}
+#carTips ul li a.chli i{ display:block; float:left; height:26px; margin:2px 0 0 0;}
+#carTips ul li a.chli i.cTool{ background:url(../img/monitor/monitor_icon1.png) no-repeat;width:27px; height:27px;}
+#carTips ul li a.chli i.cTool:hover{ background:url(../img/monitor/monitor_icon1_hover.png) no-repeat;}
+#carTips ul li a.chli i.cAll{ background:url(../img/monitor/monitor_icon9.png) no-repeat; width:16px;}
+#carTips ul li a.chli i.cRun{ background:url(../img/monitor/monitor_icon11.png) no-repeat; width:16px;}
+#carTips ul li a.chli i.cAlarm{ background:url(../img/monitor/monitor_icon10.png) no-repeat; width:16px;}
+#carTips ul li a.chli i.cStop{ background:url(../img/monitor/monitor_icon12.png) no-repeat; width:16px;}
+#carTips ul li a.chli i.cAbnormal{background:url(../img/monitor/monitor_icon13.png) no-repeat; width:16px;}
+#carTips ul li a.chli i.cAlarmNot{background:url(../img/monitor/monitor_icon21.png) no-repeat; width:16px;}
+#carTips ul li a.chli span{white-space:nowrap; padding-left:5px;}
+#carTips ul li a.chli em{ margin-left: 5px; font-size:10px; color:#fff; padding:0 3px; height: 30px; border-radius: 5px; background: #B51112; line-height: 30px;}
+
+ 
+#loading{ display: none; padding:10px 10px; position:absolute; top:35%; left:50%; margin:-15px 0 0 -80px;}
+#loading img,#loadingDiv span{ vertical-align:middle; margin:0 5px;}
+.trackBox{ background:#f8f8f8;   border:1px solid #fff; border:1px solid #cdcdcd\9;  border-radius:3px;   box-shadow:0 1px 5px #666;   font-size:12px;  }
+.trackBox a.close{ position:absolute; top:-10px; right:-6px;}
+ 
+.butControl{ cursor:pointer; height:21px; padding:15px 5px 0 5px; border-left:1px solid #d8d8d8;}
+.butControl:hover{ background:#ffffef\9; background:-moz-linear-gradient(top,#ffffef,#f9f9dc); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#ffffef), to(#f9f9dc)); background:linear-gradient(to bottom,#ffffef,#f9f9dc);}
+.butControlOpen{ width:27px; height:27px; background:url(../img/icon.png) no-repeat -158px 0; position:absolute; right:0; top:40px; cursor:pointer;}
+.butControlOpen:hover{ background-position:-158px -27px;}
+
+#right .comSearch{ width:180px; }
+#right .comSearch .inp{width:100%;padding:0;margin:0;}
+#infoPanelUl {width: 100%;height:35px; }
+#infoPanelUl li{cursor:pointer; float:left; line-height:27px;  height:27px; width: 49%;text-align: center;background:#dfdfdf;}
+#infoPanelUl li input{vertical-align: middle;}
+#infoPanelUl li:first-child{border-right:0px;margin-right:2px;}
+#infoPanelUl li.now{background:url(../img/all_checked.png) no-repeat;height:35px; line-height:27px; }
+
+
+
+#vehicleCountDiv{background:url(../img/monitor_ico_a.png) no-repeat; width: 107px; height: 44px;  float: left;  margin-left:0px;cursor:pointer;}
+#vehicleCountDiv span{display: block;  font-size: 24px;  padding-left: 7px;margin-top: 2px;}
+#vehicleOnLineCountDiv{background:url(../img/monitor_ico_b.png) no-repeat; width:107px; height: 44px;  float: left; margin-left:2px;cursor:pointer;}
+#vehicleOnLineCountDiv span{display: block;  font-size: 24px;  padding-left: 7px;margin-top: 2px;}
+  
+  
+  
+#left .toolPanel{overflow: hidden;height:36px; border-bottom:1px solid #d0d0d0; background:-moz-linear-gradient(top,#fff,#eee); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#eee)); background:url(../img/bg_repeat.png) repeat-x 0 -169px\9; background:linear-gradient(to bottom,#fff,#eee);}
+#left .toolPanel ul{float:left;width: 100%;}
+#left .toolPanel ul li{float:left;line-height: 31px;  height: 31px;  margin-top: 5px;}
+#leftToolLi { width: 30px;}
+#leftToolSpan{display: block;text-indent: -9999px;background:url(../img/leftMinTool.png) no-repeat;overflow:hidden;cursor: pointer;}
+#minSearchLi {width:160px;    display: block;}
+#rightPanelLi {width:25px;}
+#rightPanelSpan{  display: block;background:url(../img/rightPanel.png) no-repeat 50% 50%;  cursor:pointer;  overflow:hidden;text-indent: -9999px;height: 27px; line-height: 27px;}
+#rightPanelSpan:hover{background:url(../img/rightPanel_hover.png) no-repeat 50% 50%; }
+.cameraSpan{ float:left; width: 25px; height: 29px;text-indent: -9999px; display: block;background:url(../img/monitor/monitor_icon4.png) no-repeat;   margin-left: 12px; margin-top: -5px; overflow:hidden; }
+.videoSpan{float:left;width:25px;height:29px;text-indent: -9999px;display: block;background:url(../img/monitor/monitor_icon6.png) no-repeat;   margin-left: 12px;   margin-top: -5px; overflow:hidden;}
+#commandSpan{  display: block;background:url(../img/commandSpan.png) no-repeat 50% 50%;  cursor:pointer;  overflow:hidden;text-indent: -9999px;height: 27px; line-height: 27px;  position: fixed; right: 8px; width: 27px; z-index: 10;}
+#commandSpan:hover{background:url(../img/commandSpan_hover.png) no-repeat 50% 50%; }
+   
+
+#left .downMenuLayer{ top:35px; z-index:99;}
+
+
+
+/*table*/
+.tableTop{ position:relative; height:32px; border-top:1px solid #b1b1b1; box-shadow:0 -1px 4px rgba(0,0,0,0.2); background:-moz-linear-gradient(top,#fff,#e6e6e6); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#e6e6e6)); background:url(../img/bg_repeat.png) repeat-x 0 -169px\9; background:linear-gradient(to bottom,#fff,#e6e6e6);}
+.tableOperate{ float:right; margin-right:8px;}
+.tableOperate a{ float:left;  padding:3px;}
+.tableOperate a:hover{ border-radius:3px;}
+
+
+#queryPanelDiv{z-index: 10000;padding:10px;top:40px;left:0;position:absolute;background:#f8f8f8; width:310px;height:auto; border:1px solid #fff; border:1px solid #cdcdcd\9; border-radius:3px; box-shadow:0 1px 5px #666; font-size:12px;display:none;}
+#queryPanelDiv .tipsList{ padding:3px 15px;}
+#queryPanelDiv a.close{ position:absolute; right:-8px; top:-8px;}
+#queryPanelDiv span{}
+#queryPanelDiv select{height: 25px;background:white;border: 1px solid #E8E8E8;  width: 154px;}
+#queryPanelDiv input{height: 25px;background:white;border: 1px solid #E8E8E8;}
+.buttonCom,.buttonComOver{ height:22px; border-radius:3px; box-shadow:0 0 3px #888; box-shadow:0 0 0 #888\9; border:1px solid #fff; background:-moz-linear-gradient(top,#f8f8f8,#e6e6e6); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#f8f8f8), to(#e6e6e6)); border:1px solid #d2d2d2\9; background:url(../img/bg_repeat.png) repeat-x 0 -230px\9; background:linear-gradient(to bottom,#f8f8f8,#e6e6e6); padding:0 5px; font-size:12px; color:#666; cursor:pointer;}
+.buttonComOver,a:hover.buttonCom,.buttonCom:hover{ opacity:0.8;}
+a.buttonCom{ display:block; float:left; color:#444; line-height:22px;}
+a.buttonCom i{ float:left; margin:5px 5px 0 0;}
+
+
+#OperateMenuPanel{line-height: 30px;left:200px;position:absolute;background:white; width:220px;border:1px solid #c6c6c6;  box-shadow:0 1px 5px #666; font-size:12px;display:none;z-index: 999;}
+#OperateMenuPanel .tipsList{ padding:3px 15px;}
+#OperateMenuPanel span.arrow{ background:url(../img/menu_arrow.png) no-repeat ; display:block;width:22px;height:20px;position: absolute;left: -27px;top: 50px;}
+#OperateMenuPanel a.close{ position:absolute; right:-8px; top:-8px;}
+#OperateMenuPanel ul {width:100%;}
+#OperateMenuPanel ul li{cursor:pointer;float:left;display:block;width:95px;height:30px;  margin: 6px;  border: 1px solid #dfdfdf; line-height:30px;}
+#OperateMenuPanel ul li:hover{background:#feb900; border:1px solid #fff;}
+#OperateMenuPanel ul li:hover a{ color: #fff;}
+#OperateMenuPanel ul li span{float:left;margin-top:2px;margin-left: 3px;}
+
+
+#batchMenuPanel{display:none;line-height: 30px;left: 230px;position:absolute;background:white; width: 575px;height: 66px; border:1px solid #c6c6c6;   box-shadow:0 1px 5px #666; font-size:12px;bottom: 90px;z-index: 99999;}
+#batchMenuPanel_a{position:absolute;background:#fff; width:370px; border:1px solid #c6c6c6;box-shadow:0 1px 5px #666; font-size:12px;z-index: 99999; left:-43px; top:-85px; padding: 10px 5px;text-align: center;display:none;}
+.cmd_span a.back_icon{display: block;float: left; padding: 0 13px;position: relative;min-width: 48px;}
+.cmd_span a.back_icon:before{content:"";display: block;position: absolute; right: 0px; height:39px; top:10px;width: 0px; border-left: 1px dashed #dfdfdf;}
+.cmd_span a.back_icon:last-child:before{display: none;}
+.cmd_span a.back_icon span{margin-top: 5px;}
+
+#batchMenuPanel .tipsList{ padding:3px 15px;}
+#batchMenuPanel span.arrow{ background: url(../img/panel_arrow.png) no-repeat; display:block; width: 50px; height: 12px;position: absolute; left: 22px;bottom:76px;}
+#batchMenuPanel a.close{ position:absolute; right:-8px; top:-8px;}
+#batchMenuPanel ul {width:100%;padding-top: 10px;}
+#batchMenuPanel ul li{cursor:pointer; display:block;width:75px;float: left;text-align: center;}
+#batchMenuPanel ul li a{display: block;}
+#batchMenuPanel ul li span{  margin-top: 0px;  margin-left: 25px;}
+#batchMenuPanel_a span.arrow{ background: url(../img/panel_arrow.png) no-repeat; display:block; width: 50px; height: 12px;position: absolute; left: 22px;bottom:-12px;}
+ 
+#batchVehicleCommand{position:absolute;background:#fff; width:225px; border:1px solid #c6c6c6;box-shadow:0 1px 5px #666; font-size:12px;z-index: 99999; left: -25px;top: 40px; padding: 10px 5px;text-align: center;display:none;}
+#batchVehicleCommand span.arrow{ background: url(../img/panel_arrow.png) no-repeat; display:block; width: 50px; height: 12px;position: absolute; left: 22px;bottom:-12px;}
+ 
+
+#areaQueryVehiclePanel{  display: none;width:550px;height:250px;background:#fafafa;border:1px solid #ccc;margin-top:10px;position: absolute;left: 221px;top: 318px;z-index: 99999;}
+#areaQueryVehiclePanel a.close{position:absolute; right: 5px; top: 4px;}
+#closeBatchPanel{position:absolute; right:-10px; top:-10px;padding: 0px!important;} 
+ 
+
+
+i.stop{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon5.png) no-repeat;width:27px; height:27px;}
+i.stop:hover{background:url(../img/maptool/maptool_icon5_hover.png) no-repeat;}
+i.tExcel{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon3.png) no-repeat;width:27px; height:27px;}
+i.tExcel:hover{background:url(../img/maptool/maptool_icon3_hover.png) no-repeat;}
+i.min{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon2.png) no-repeat;width:27px; height:27px;}
+i.min:hover{background:url(../img/maptool/maptool_icon2_hover.png) no-repeat;}
+i.max{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon1.png) no-repeat;width:27px; height:27px;}
+i.max:hover{background:url(../img/maptool/maptool_icon1_hover.png) no-repeat;}
+i.minify{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon4.png) no-repeat;width:27px; height:27px;}
+i.minify:hover{background:url(../img/maptool/maptool_icon4_hover.png) no-repeat;}
+i.setField{ display:block;text-indent:-9999px;background:url(../img/mapTools.png) no-repeat;width:27px; height:27px;}
+i.setField:hover{background:url(../img/mapTools_hover.png) no-repeat;}
+
+.vehicleinfo{display:inline-block;background:url(../img/monitor/monitor_icon14.png) no-repeat;width:26px;height:26px;   }
+.keymonitor{display:inline-block;background:url(../img/monitor/monitor_icon3.png) no-repeat;width:26px;height:26px;   }
+.sendcommand {display:inline-block;background:url(../img/monitor/monitor_icon2.png) no-repeat; width:26px;height:26px; }
+.lcdmessage {display:inline-block;background:url(../img/monitor/monitor_icon5.png) no-repeat;width:26px;height:26px; }
+.picture{ display:inline-block;background:url(../img/monitor/monitor_icon4.png) no-repeat;width:26px;height:26px; }
+.videoplayback {display:inline-block;background:url(../img/monitor/monitor_icon6.png) no-repeat;width:26px;height:26px; }
+.videoplay {display:inline-block;background:url(../img/monitor/monitor_icon7.png) no-repeat;width:26px;height:26px; }
+.trackplayback {display:inline-block;background:url(../img/monitor/monitor_icon8.png) no-repeat; width:26px;height:26px; }
+.cmd_span a.back_icon:hover{background:#feb900; color: #fff;}
+
+.cmd_span a:hover .vehicleinfo{background:url(../img/monitor/monitor_icon14_hover.png) no-repeat;}
+.cmd_span a:hover .keymonitor{background:url(../img/monitor/monitor_icon3_hover.png) no-repeat;}
+.cmd_span a:hover .sendcommand{background:url(../img/monitor/monitor_icon2_hover.png) no-repeat;}
+.cmd_span a:hover .lcdmessage{background:url(../img/monitor/monitor_icon5_hover.png) no-repeat;}
+.cmd_span a:hover .picture{background:url(../img/monitor/monitor_icon4_hover.png) no-repeat;}
+.cmd_span a:hover  .videoplayback{background:url(../img/monitor/monitor_icon6_hover.png) no-repeat;}
+.cmd_span a:hover .videoplay{background:url(../img/monitor/monitor_icon7_hover.png) no-repeat;}
+.cmd_span a:hover .trackplayback{background:url(../img/monitor/monitor_icon8_hover.png) no-repeat;}
+
+#OperateMenuPanel ul li:hover .trackplayback{background:url(../img/monitor/monitor_icon8_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .picture{background:url(../img/monitor/monitor_icon4_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .lcdmessage{background:url(../img/monitor/monitor_icon5_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .keymonitor{background:url(../img/monitor/monitor_icon3_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .sendcommand{background:url(../img/monitor/monitor_icon2_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .videoplay{ background:url(../img/monitor/monitor_icon7_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .videoplayback{background:url(../img/monitor/monitor_icon6_hover.png) no-repeat;}
+#OperateMenuPanel ul li:hover .vehicleinfo{background:url(../img/monitor/monitor_icon14_hover.png) no-repeat;}
+#carTreeList  a{ outline:none; text-decoration:none;}
+#carTreeList  a:link,a:visited{ color:#444;}
+#carTreeList  a:hover{ color:#219bd0;}
+#vehicleSeachTable td{border-bottom-color: #e6e6e6;line-height:2;}
+#loadingDiv{position: absolute;  top:0px; left: 0px; padding-top: 170px; width: 219px; height: 200px; z-index: 99; opacity: 0.7; text-align: center;  background-color: rgb(252, 246, 233);}
+
+.btn_dl_c{  background: #65c92b;  border: 1px solid #65c92b; width:50px;height:25px;display: inline-block;line-height:25px;color: #fff!important;font-size: 12px;}
+.btn_dl_d{  background: #f5f5f5;color: #333!important; border: 1px solid #d1d1d1;display: inline-block;line-height:25px;width: 50px;height:25px;font-size: 12px;}
+
+.BMap_bubble_title a span{display:inline-block; width:26px;height:26px; float:none!important; margin-left:0!important;}
+.BMap_bubble_title a .span3{background:url(../img/monitor/monitor_icon3.png) no-repeat;}
+.BMap_bubble_title a .span8{background:url(../img/monitor/monitor_icon8.png) no-repeat;}
+.BMap_bubble_title a .span2{background:url(../img/monitor/monitor_icon2.png) no-repeat;}
+.BMap_bubble_title a .span14{background:url(../img/monitor/monitor_icon14.png) no-repeat;}
+.BMap_bubble_title a .span4{background:url(../img/monitor/monitor_icon4.png) no-repeat;}
+.BMap_bubble_title a .span5{background:url(../img/monitor/monitor_icon5.png) no-repeat;}
+
+.BMap_bubble_title a .span3:hover{background:url(../img/monitor/monitor_icon3_hover.png) no-repeat;}
+.BMap_bubble_title a .span8:hover{background:url(../img/monitor/monitor_icon8_hover.png) no-repeat;}
+.BMap_bubble_title a .span2:hover{background:url(../img/monitor/monitor_icon2_hover.png) no-repeat;}
+.BMap_bubble_title a .span14:hover{background:url(../img/monitor/monitor_icon14_hover.png) no-repeat;}
+.BMap_bubble_title a .span4:hover{background:url(../img/monitor/monitor_icon4_hover.png) no-repeat;}
+.BMap_bubble_title a .span5:hover{background:url(../img/monitor/monitor_icon5_hover.png) no-repeat;}
+#mapDiv img{max-width:none;}
+.selectMenu,.left_menu_bg div:hover,.left_menu_bg li:hover{background:#FEB900;}
+.left_menu_bg{background:#5180D2;overflow:hidden;}

@@ -1,0 +1,226 @@
+ .comSearch{ border-radius:3px; box-shadow:0 1px 2px #d2d2d2; border:1px solid #dfdfdf; background:url(../img/bg_repeat.png) repeat-x 0 -205px;}
+.comSearch .vehicleInp{ float:left;width:127px; height:25px; line-height:25px; padding-left:3px;color:#c0c0c0;}
+.comSearch .inp{ float:left; height:22px; line-height:22px;padding:0px; padding-left:3px;color:#c0c0c0;}
+.comSearch .botOver{ background-position:-200px 0;} 
+.comSearch .btnVehicle,.bot,.comSearch .botOver{ float:right; width:20px; height:22px; background:url(../img/searchIco.png) no-repeat 0 50% ; cursor:pointer;  overflow:hidden; border: 0px;}
+ 
+ 
+ 
+.ui-state-default{ height:22px !important; border-radius:3px !important; background:-moz-linear-gradient(top,#fafafa,#e6e6e6) !important; background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fafafa), to(#e6e6e6)) !important; background:url(../img/bg_repeat.png) repeat-x 0 -230px\9 !important; background:linear-gradient(to bottom,#fafafa,#e6e6e6) !important; font-family:Microsoft YaHei !important; color:#444 !important; cursor:pointer !important; font-size:12px !important;}
+.ui-button-text{ padding:0 10px !important;}
+.ui-dialog-content{ padding:0 !important;}
+.ui-dialog-buttonset{ text-align:center !important; background:#ececec !important;}
+
+/*锟叫憋拷锟斤拷拽*/
+.butDrag{ position:relative; height:5px; background:#fcfcfc\9; background:-moz-linear-gradient(top,#fff,#eee); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#eee)); background:linear-gradient(to bottom,#fff,#eee); border-top:1px solid #b1b1b1; box-shadow:0 -1px 4px rgba(0,0,0,0.2); text-align:center;}
+.butDrag p{ height:5px; background:url(../img/icon_drag.png) no-repeat 50% 0; overflow:hidden; text-indent:-9999px;}
+.butDrag:hover{ background:#ffffef\9; background:-moz-linear-gradient(top,#ffffef,#f9f9dc); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#ffffef), to(#f9f9dc)); background:linear-gradient(to bottom,#ffffef,#f9f9dc); cursor:n-resize;}
+.butDragMove{ position:absolute; width:100%; background:url(../img/bg_alphaBlack.png) repeat\9; background-color:rgba(0,0,0,0.3); border-top:3px dotted rgba(0,0,0,0.5); border-top:3px dashed #444\9; cursor:n-resize; z-index:999; bottom: 0px;right:0px;}
+
+/*tab*/
+.tab{ border-bottom:2px solid #7aafd7;}
+.tab ul li{ float:left; height:32px; margin-right:5px; line-height:32px; border-radius:3px 3px 0 0; background-image:-moz-linear-gradient(top,#f3f3f3,#ebebeb); background-image:-webkit-gradient(linear,0% 0%, 0% 100%, from(#f3f3f3), to(#ebebeb)); background:url(../img/bg_repeat.png) repeat-x 0 -76px\9; background:linear-gradient(to bottom,#f3f3f3,#ebebeb);}
+.tab ul li.now,.tab ul li a:hover{ background-image:-moz-linear-gradient(top,#81b8e2,#7aafd7); background-image:-webkit-gradient(linear,0% 0%, 0% 100%, from(#81b8e2), to(#7aafd7)); background:url(../img/bg_repeat.png) repeat-x 0 -44px\9; background:linear-gradient(to bottom,#81b8e2,#7aafd7);}
+.tab ul li.now a,.tab ul li a:hover{ color:#fff;}
+.tab ul li a{ padding:0 15px; display:block; height:32px; border-radius:3px 3px 0 0;}
+
+/*operate*/
+.comOperate i,.subResultTop span{ float:left;}
+.comOperate i{ margin:4px 5px 0 0;}
+.comOperate a{ display:block; float:left; font-size:12px; color:#444; padding:2px 5px; margin:3px 5px; border-radius:3px;}
+.comOperate a:hover,.comOperate a:hover{ background:#fff; box-shadow:0 0 3px #adadad;}
+
+i.tExcel{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon3.png) no-repeat;width:27px; height:27px;}
+i.min{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon2.png) no-repeat;width:27px; height:27px;}
+i.max{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon1.png) no-repeat;width:27px; height:27px;}
+i.minify{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon4.png) no-repeat;width:27px; height:27px;}
+i.saveBtn{ display:block;text-indent:-9999px;background:url(../img/maptool/maptool_icon6.png) no-repeat;width:27px; height:27px;}
+
+i.max:hover{background:url(../img/maptool/maptool_icon1_hover.png) no-repeat;}
+i.min:hover{background:url(../img/maptool/maptool_icon2_hover.png) no-repeat;}
+i.tExcel:hover{background:url(../img/maptool/maptool_icon3_hover.png) no-repeat;}
+i.minify:hover{background:url(../img/maptool/maptool_icon4_hover.png) no-repeat;}
+i.saveBtn:hover{background:url(../img/maptool/maptool_icon6_hover.png) no-repeat;}
+
+.left{ float:left;}
+/*table*/
+.tableTop{ position:relative; height:34px; border-top:1px solid #b1b1b1; box-shadow:0 -1px 4px rgba(0,0,0,0.2); background:-moz-linear-gradient(top,#fff,#e6e6e6); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#e6e6e6)); background:url(../img/bg_repeat.png) repeat-x 0 -169px\9; background:linear-gradient(to bottom,#fff,#e6e6e6);}
+.tableOperate{ float:right; margin-right:8px;}
+.tableOperate a{ float:left;  padding:3px;}
+
+
+
+/*link*/
+a{ outline:none; text-decoration:none;}
+a:link,a:visited{ color:#444;}
+a:hover{ color:#219bd0;}
+.linkMore a:hover,#footer .link a:hover{ color:#219bd0;}
+
+.fix{ zoom:1;}
+.fix:after{ content:'.'; display:block; clear:both; visibility:hidden; height:0px;}
+
+#monitorList .tableTop{ border-bottom:2px solid #7aafd7; border-top:1px solid #ddd; box-shadow:0 0 0 rgba(0,0,0,0);}
+#monitorList .tab{ border:none; font-size:12px; margin-top:1px;}
+#monitorList .tab ul li{ height:30px; line-height:30px; border-radius:4px 4px 0 0\9; border:1px solid #cfcfcf; border-width:1px 1px 0;background:-moz-linear-gradient(top,#fff,#e9e9e9); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#e9e9e9)); background:url(../img/bg_repeat.png) repeat-x 0 -169px\9; background:linear-gradient(to bottom,#fff,#e9e9e9);}
+#monitorList .tab ul li.now{ border:1px solid #7aaed7; border-width:1px 1px 0;}
+#monitorList .tab ul li.now,#monitorList .tab ul li a:hover{ background:-moz-linear-gradient(top,#81b8e2,#7aafd7); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#81b8e2), to(#7aafd7)); background:url(../img/bg_repeat.png) repeat-x 0 -44px\9; background:linear-gradient(to bottom,#81b8e2,#7aafd7);}
+#monitorList .tab ul li a{ height:30px;}
+
+/*main*/
+#queryPanel{ position:absolute; right:10px; bottom:68px; width:220px; padding:3px 10px; font-size:12px;}
+#trackSite{ position:absolute; right:10px; top:45px; width:220px; padding:3px 10px; font-size:12px;}
+#queryPanel{ padding:5px 10px;}
+#queryPanel table td,#queryPanel table input{ font-size:12px; cursor:text !important; vertical-align: middle;}
+#queryPanel table .inputCom,#trackSite p .inputCom{ height:20px;}
+#queryPanel table .comWdate{ width:150px; background:-moz-linear-gradient(top,#fafafa,#eee); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fafafa), to(#eee)); background:linear-gradient(to bottom,#fafafa,#eee);}
+#queryPanel table .comWdate input{ width:145px;}
+#queryPanel table a.buttonCom{ padding:2px 20px; margin:5px 0 0 85px;}
+#queryPanel table td{ padding:5px 0;}
+#queryPanel table td span input.ui-state-default{ float:left; width:122px; border-radius:3px 0 0 3px !important; border-right:none !important;}
+#queryPanel table td span a.ui-state-default{ border-radius:0 3px 3px 0 !important;}
+#queryPanel a.control{ position:absolute; right:-1px; bottom:-1px; padding:5px; border-radius:3px; border:1px solid transparent;}
+#queryPanel a:hover.control{ border:1px solid #ddd; background:#fff;}
+
+#queryControlBox{z-index:9999; position:absolute; width:300px;text-align: center; z-index:999; line-height: 40px; height:40px; padding:0 5px; bottom:140px; left:50%; margin-left:-170px; border:1px solid #fff; border:1px solid #cdcdcd\9; border-radius:5px; box-shadow:0 1px 5px #666; background:url(../img/bgControl.jpg) #fbfbfb repeat-x 0 100%; font-size:12px;}
+.closd_icon{position: absolute;right:5px;top:5px; display: block; width: 12px; height: 12px;cursor: pointer;}
+.closd_icon img{display: block;}
+#playControlBox{ position:absolute;  height:40px; padding:0 5px; bottom:140px; left:50%;  border:1px solid #fff; border:1px solid #cdcdcd\9; border-radius:5px; box-shadow:0 1px 5px #666; background:url(../img/bgControl.jpg) #fbfbfb repeat-x 0 100%; font-size:12px;}
+:root #playControlBox{ border:1px solid #fff;}
+#playControl a,#playOperate a{ width:30px; height:30px; padding:3px; float:left; overflow:hidden; border-radius:3px; }
+#playControl a i,#playOperate a i{ display:block; text-indent:-9999px;}
+#playControl a i.play{ width:25px; height:25px; }
+#playControl a i.pause{ width:25px; height:25px;}
+#playControl a i.stop{ width:25px; height:25px;}
+
+#playOperate a i.save,#playOperate a i.download,#playOperate a i.educe,#playOperate a i.clear{width:25px; height:25px;}
+#playOperate a i.download{ background-position:-17px -22px;}
+#playOperate a i.educe{}
+#playOperate a i.clear{}
+#playControlBox span{ line-height:36px; color:#444;}
+#playControlBox span.progress{ font-family:Arial; font-size:10px; width:45px; line-height:36px;}
+#playControl,#progressBox,#playSpeedBox,#playOperate,#playControlBox span{ float:left;}
+#playOperate{ margin-left:15px;}
+#progressBox{ margin: 6px 11px 0 0px; width:80px; border:1px solid #8e8e8e; background:#fff;}
+#progressBox p{ height:3px; background:-moz-linear-gradient(top,#eee,#bababa); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#eee), to(#bababa)); background:#cecece\9; background:linear-gradient(to bottom,#eee,#bababa);}
+
+#playSpeedBox{ margin:8px 8px 0 8px; width:80px; height:3px;  background:#fff;}
+#playOperate{ background:url(../img/line.jpg) no-repeat 0 6px; padding-left:5px;}
+
+/*layer*/
+#exprotpan{ position:absolute; bottom:35px; right:55px;}
+
+#saveLineSelDiv{ position:absolute; bottom:35px; right:0;}
+#saveLineSelDiv li span{ float:none; line-height:1.5em;}
+#saveLineSelDiv li em,#saveLine li span{ display:inline-block; vertical-align:middle;}
+#saveLineSelDiv li em{ width:15px; height:8px; margin-right:5px;}
+#saveLineSelDiv li em.lGreen{ background:#509600;}
+
+
+/*main*/
+#carTips{ float:left;}
+#carTips ul li{ float:left; margin:0 3px; position: relative;}
+#carTips ul li:after{content:"";display: block;position:absolute; right:0px; top:9px;width:0px;height:14px;border-right:1px dashed #beb9b9; }
+#carTips ul li a{ display:block; font-size:12px; color:#888; padding:3px 10px ; border:1px solid transparent; border-width:0 1px;height:27px;overflow: hidden;}
+
+/* #carTips ul li.now { background:#fff; border-color:#ddd; color:#000;  border-bottom: 2px solid #ffba17} */
+#carTips ul li a i{ display:block; float:left; width:27px; height:27px;}
+#carTips ul li a i.cTrackPoit{ background:url(../img/track/cTrackPoit.png) no-repeat;}
+#carTips ul li a i.cStopCarLi{background:url(../img/track/save.png) no-repeat;}
+#carTips ul li a i.cStopCar{ background:url(../img/track/cStopCar.png) no-repeat;}
+#carTips ul li a i.cAreaCar{ background:url(../img/track/cAreaCar.png) no-repeat;}
+#carTips ul li a i.cDeadZoneCar{ background:url(../img/track/cDeadZoneCar.png) no-repeat;}
+#carTips ul li a i.cDrivingCar{ background:url(../img/track/cDrivingCar.png) no-repeat;}
+#carTips ul li a i.cChartCar{ background:url(../img/track/cChartCar.png) no-repeat;}
+#carTips ul li a i.cImg{ background:url(../img/track/cImg.png) no-repeat;}
+#carTips ul li a i.cAlarm{ background:url(../img/track/cAlarm.png) no-repeat;}
+#carTips ul li a span{ padding-left:5px;display:block;float: left; height: 27px; line-height: 27px; }
+#carTips ul li.now a i.cTrackPoit,#carTips ul li a:hover i.cTrackPoit{ background:url(../img/track/cTrackPoit_hover.png) no-repeat; }
+#carTips ul li.now a i.cStopCarLi,#carTips ul li a:hover i.cStopCarLi{ background:url(../img/track/save_hover.png) no-repeat; }
+#carTips ul li.now a i.cStopCar,#carTips ul li a:hover i.cStopCar{ background:url(../img/track/cStopCar_hover.png) no-repeat;}
+#carTips ul li.now a i.cAreaCar,#carTips ul li a:hover i.cAreaCar{ background:url(../img/track/cAreaCar_hover.png) no-repeat;}
+#carTips ul li.now a i.cDeadZoneCar,#carTips ul li a:hover i.cDeadZoneCar{ background:url(../img/track/cDeadZoneCar_hover.png) no-repeat;}
+#carTips ul li.now a i.cDrivingCar,#carTips ul li a:hover i.cDrivingCar{ background:url(../img/track/cDrivingCar_hover.png) no-repeat;}
+#carTips ul li.now a i.cChartCar,#carTips ul li a:hover i.cChartCar{ background:url(../img/track/cChartCar_hover.png) no-repeat;}
+#carTips ul li.now a i.cImg,#carTips ul li a:hover i.cImg{ background:url(../img/track/cImg_hover.png) no-repeat;}
+#carTips ul li.now a i.cAlarm,#carTips ul li a:hover i.cAlarm{ background:url(../img/track/cAlarm_hover.png) no-repeat;}
+
+.trackBox{ background:rgba(255,255,255,0.9); border:1px solid #fff; border:1px solid #cdcdcd\9; border-radius:3px; box-shadow:0 1px 5px #666; font-size:12px;}
+.trackBox a.close{ position:absolute; top:-10px; right:-6px;}
+.selectCom{ height:26px; line-height:26px; border-radius:3px; box-shadow:0 0 2px #9d9d9d; border:1px solid #e4e4e4\9; box-shadow:0 0 0 #9d9d9d\9; background:url(../img/bg_repeat.png) #f8f8f8 repeat-x 0 -492px;}
+.buttonCom,.buttonComOver{ height:22px; border:1px solid #fff; background:-moz-linear-gradient(top,#f8f8f8,#e6e6e6); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#f8f8f8), to(#e6e6e6)); border:1px solid #d2d2d2\9; background:url(../img/bg_repeat.png) repeat-x 0 -230px\9; background:linear-gradient(to bottom,#f8f8f8,#e6e6e6); padding:0 5px; font-size:12px; color:#666; cursor:pointer;}
+.buttonComOver,a:hover.buttonCom,.buttonCom:hover{ opacity:0.8;}
+a.buttonCom{ display:block; float:left; color:#444; line-height:22px; background:#32b048;border:0px; color: #fff;}
+a.buttonCom:hover{ color: #fff;}
+a.buttonCom i{ float:left; margin:5px 5px 0 0;}
+
+i.more, i.edit, i.recharge, i.business, i.refresh, i.unfold, i.collapse, i.rbOff, i.ltOpen, i.rtOff, i.rtOpen,i.lbOpen, i.cBack {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: url(../img/icon.png) no-repeat;
+}
+i.rbOff {
+  background-position: -396px 0;
+}
+i.ltOpen {
+  background-position: -383px 0;
+}
+i.rtOpen {
+  background-position: -331px 0;
+}
+.alarmInfoWindowDiv{
+	width:530px;
+	overflow:scroll;
+	overflow-x:hidden;
+}
+
+.alarmInfoWindowDiv table{
+	width:510px;
+}
+
+.alarmInfoWindowDiv table tr td{
+	text-align:center;
+	border:1px solid black;
+	word-break:break-all;
+}
+
+
+
+
+#playControl a i.play{background: url(../img/play.png) no-repeat 50% 50%; }
+#playControl a i.stop{background: url(../img/stop.png) no-repeat 50% 50%}
+#playControl a i.pause{background: url(../img/pause.png) no-repeat 50% 50%}
+
+#playOperate a i.save{background: url(../img/save.png) no-repeat 50% 50%;}
+#playOperate a:hover i.save{background: url(../img/save_hover.png) no-repeat 50% 50%;}
+#playOperate a i.clear{background: url(../img/clear.png) no-repeat 50% 50%;}
+#playOperate a:hover i.clear{background: url(../img/clear_hover.png) no-repeat 50% 50%;}
+
+
+#showQueryPanel{
+  position: absolute;
+  top: 130px;
+  right: 8px;
+}
+
+ 
+#showQueryPanel a {
+  display: block;
+  width: 59px;
+  height: 55px;
+  background: url(../img/icon_search.png) no-repeat;
+  text-indent: -9999px;
+}
+#openOilSpeedPanel{
+  position: absolute;
+  top: 70px;
+  right: 8px;
+}
+
+#openOilSpeedPanel a {
+  display: block;
+  width: 59px;
+  height: 55px;
+  background: url(../img/icon_oil.png) no-repeat;
+  text-indent: -9999px;
+}
